@@ -26,12 +26,14 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
     private Fragment fragment;
     private ArrayAdapter<String> dataAdapter;
     private List<String> list;
-    boolean isValid = false;
+    private boolean isValid = true;
+
 
     public static final String USER_TIME = "Zdefiniuj wlasny czas...";
 
 
     public static final String DIALOG_TITLE = "Podaj czas w sekundach";
+    private long time;
 
 
     public void setFragment(Fragment fragment){
@@ -45,13 +47,16 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         this.dataAdapter = dataAdapter;
     }
 
+    public long getTime() {
+        return time;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment_layout, container, false);
         getDialog().setTitle(DIALOG_TITLE);
         return rootView;
     }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -70,7 +75,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                isValid = Integer.parseInt(s.toString()) > 0;
+               // isValid = Integer.parseInt(s.toString()) > 0;
 
 
             }
@@ -78,17 +83,19 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isValid){
+                if (isValid) {
                     list.add(editTextNumbers.getText().toString() + " sekund");
                     updateData(list, dataAdapter);
+                    time = Long.parseLong(editTextNumbers.getText().toString());
                     dismiss();
-                }else{
+                } else {
                     Toast.makeText(getContext(), "Liczba musi byc wieksza od zera!", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
     }
+
     private void updateData(List<String> list, ArrayAdapter<String> dataAdapter) {
         List<String> tmpList = new ArrayList<>(list);
 
