@@ -8,48 +8,25 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITask;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
 import java.util.ArrayList;
 
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
-    ArrayList<ITask> listOfTasks;
+    ArrayList<TaskInformation> listOfTasks;
 
     public TasksPreviewListAdapter() {
         listOfTasks = new ArrayList<>();
     }
 
-    public void addItem(ITask task) {
-        listOfTasks.add(task);
-        notifyItemInserted(listOfTasks.size() - 1);
+    public ArrayList<TaskInformation> getListOfTasks(){
+        return listOfTasks;
     }
 
-    public void removeItem(ITask task) {
-        listOfTasks.remove(task);
-        notifyItemRemoved(findTaskPositionInList(task));
-    }
-    public void changeItem(ITask task){
-        int itemIndex;
-        if((itemIndex = findTaskPositionById(task.getTaskId())) != -1){
-            listOfTasks.remove(itemIndex);
-        }
-    }
-
-    public int findTaskPositionInList(ITask task) {
-
-        return listOfTasks.indexOf(task);
-    }
-    public int findTaskPositionById(int taskId){
-        ITask foundedTask;
-        for(ITask task : listOfTasks)
-        {
-            if(task.getTaskId() == taskId){
-                foundedTask = task;
-                return listOfTasks.indexOf(foundedTask);
-            }
-        }
-        return -1;
+    public void replaceListOfTasks(ArrayList<TaskInformation> list)
+    {
+        this.listOfTasks = list;
     }
 
     @Override
@@ -61,8 +38,10 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
 
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
-        holder.mTitle.setText(this.listOfTasks.get(position).getTaskTitile());
-        holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
+        if(listOfTasks.size() != 0) {
+            holder.mTitle.setText(this.listOfTasks.get(position).getTaskTitile());
+            holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
+        }
     }
 
     @Override
