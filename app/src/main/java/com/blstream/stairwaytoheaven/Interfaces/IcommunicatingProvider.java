@@ -7,22 +7,10 @@ import java.util.ArrayList;
  */
 public interface IcommunicatingProvider {
 
-    /**
-     *
-     * @param taskId id of task
-     * @return time elapsed to end of task with id given in parameter
-     */
-    long getElapsedTime(int taskId);
 
     /**
-     *
      * @return list of all queued task ids
      */
     ArrayList<ITaskInformation> getAllTasksDetails();
 
-    /**
-     *
-     * @return current size of queue
-     */
-    int getQueueSize();
 }
