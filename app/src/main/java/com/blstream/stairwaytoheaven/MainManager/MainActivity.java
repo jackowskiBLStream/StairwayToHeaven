@@ -15,6 +15,7 @@ import android.util.Log;
 
 import com.blstream.stairwaytoheaven.DetailFragment.TasksPreviewFragment;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
@@ -76,10 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch(position){
-                case 0: return new StartScreenFragment();
-                case 1: return new TasksPreviewFragment();
-                default: return null;
+            switch (position) {
+                case 0:
+                    return new StartScreenFragment();
+                case 1:
+                    return new TasksPreviewFragment();
+                default:
+                    return null;
             }
         }
 
