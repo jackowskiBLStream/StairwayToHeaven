@@ -1,4 +1,4 @@
-package com.blstream.stairwaytoheaven.ComunicatingInterface;
+package com.blstream.stairwaytoheaven.Interfaces;
 
 
 public interface ITask {
