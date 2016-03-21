@@ -10,19 +10,50 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.blstream.stairwaytoheaven.Interfaces.IAddingInterface;
+import com.blstream.stairwaytoheaven.Interfaces.ITask;
+import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
+
 import java.util.ArrayList;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
  */
-public class TaskManagingService extends Service {
+public class TaskManagingService extends Service implements IAddingInterface,IcommunicatingProvider {
     private Handler handler = new Handler();
 
     private final IBinder mBinder = new LocalBinder();
 
+    /**
+     * adds new task to queue in Service
+     *
+     * @param taskId       id of task to add
+     * @param timeDuration duration of task
+     */
+    @Override
+    public void addTask(int taskId, long timeDuration) {
+
+    }
+
+    /**
+     * @param taskId id of task
+     * @return time elapsed to end of task with id given in parameter
+     */
+    @Override
+    public long getElapsedTime(int taskId) {
+        return 0;
+    }
+
+    /**
+     * @return list of all queued task ids
+     */
+    @Override
+    public ArrayList<ITask> getAllTasksDetails() {
+        return null;
+    }
+
     public class LocalBinder extends Binder {
         public TaskManagingService getService() {
-            //zwracamy instancje serwisu, przez nią odwołamy się następnie do metod.
             return TaskManagingService.this;
         }
     }

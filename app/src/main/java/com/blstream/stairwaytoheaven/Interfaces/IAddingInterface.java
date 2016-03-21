@@ -9,5 +9,5 @@ public interface IAddingInterface {
      * @param taskId id of task to add
      * @param timeDuration duration of task
      */
-    public void addTask(int taskId, long timeDuration);
+    void addTask(int taskId, long timeDuration);
 }
