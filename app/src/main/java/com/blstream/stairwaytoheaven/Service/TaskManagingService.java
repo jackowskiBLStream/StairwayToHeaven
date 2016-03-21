@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.blstream.stairwaytoheaven.Interfaces.IAddingInterface;
-import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
+import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      * @return list of all queued task ids
      */
     @Override
-    public ArrayList<ITaskInformation> getAllTasksDetails() {
+    public ArrayList<TaskInformation> getAllTasksDetails() {
         return null;
     }
 

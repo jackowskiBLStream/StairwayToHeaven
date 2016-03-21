@@ -11,6 +11,6 @@ public interface IcommunicatingProvider {
     /**
      * @return list of all queued task ids
      */
-    ArrayList<ITaskInformation> getAllTasksDetails();
+    ArrayList<TaskInformation> getAllTasksDetails();
 
 }

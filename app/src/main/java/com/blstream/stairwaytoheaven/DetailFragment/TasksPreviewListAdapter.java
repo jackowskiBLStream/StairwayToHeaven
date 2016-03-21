@@ -8,24 +8,23 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
+import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
-import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
 import java.util.ArrayList;
 
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
-    ArrayList<ITaskInformation> listOfTasks;
+    ArrayList<TaskInformation> listOfTasks;
 
     public TasksPreviewListAdapter() {
         listOfTasks = new ArrayList<>();
     }
 
-    public ArrayList<ITaskInformation> getListOfTasks(){
+    public ArrayList<TaskInformation> getListOfTasks(){
         return listOfTasks;
     }
 
-    public void replaceListOfTasks(ArrayList<ITaskInformation> list)
+    public void replaceListOfTasks(ArrayList<TaskInformation> list)
     {
         this.listOfTasks = list;
     }

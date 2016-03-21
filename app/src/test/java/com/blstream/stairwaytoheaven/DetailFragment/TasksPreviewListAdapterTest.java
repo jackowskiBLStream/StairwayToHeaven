@@ -1,7 +1,6 @@
 package com.blstream.stairwaytoheaven.DetailFragment;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
-import com.blstream.stairwaytoheaven.Service.TaskInformation;
+import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class TasksPreviewListAdapterTest {
     TasksPreviewListAdapter adapter;
-    ArrayList<ITaskInformation> Tasks;
+    ArrayList<TaskInformation> Tasks;
     @Before
     public void setup(){
         adapter = new TasksPreviewListAdapter();
@@ -35,8 +34,8 @@ public class TasksPreviewListAdapterTest {
     @Test
     public void shouldAddArrayToAdapter(){
         //given
-        Tasks.add(new TaskInformation("ABC", 5,0));
-        Tasks.add(new TaskInformation("ABCD", 6,1));
+        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation("ABC", 5,0));
+        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation("ABCD", 6,1));
         Object[] arrayofTasks = Tasks.toArray();
         //when
         adapter.replaceListOfTasks(Tasks);

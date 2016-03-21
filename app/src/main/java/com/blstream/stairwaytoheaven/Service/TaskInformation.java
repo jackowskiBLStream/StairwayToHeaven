@@ -1,9 +1,7 @@
 package com.blstream.stairwaytoheaven.Service;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 
-
-public class TaskInformation implements ITaskInformation {
+public class TaskInformation implements com.blstream.stairwaytoheaven.Interfaces.TaskInformation {
     private int id;
     private String title;
     private int progress;

@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
+import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
@@ -27,7 +27,7 @@ public class TasksPreviewFragment extends Fragment {
 
     TasksPreviewListAdapter taskPreviewAdapter;
     TaskManagingService mService;
-    ArrayList<ITaskInformation> allTasks;
+    ArrayList<TaskInformation> allTasks;
     private boolean mBound;
     Handler handler;
 
