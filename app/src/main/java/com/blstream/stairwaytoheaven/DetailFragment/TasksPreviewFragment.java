@@ -11,15 +11,11 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> e999cd1dd4a19651fedd09ceacac5d789fc22ff5
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
@@ -52,7 +48,8 @@ public class TasksPreviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         taskPreviewAdapter = new TasksPreviewListAdapter();
         Intent intent  = new Intent(getContext(),TaskManagingService.class);
-        getContext().bindService(intent,mConnection,Context.BIND_ABOVE_CLIENT);
+        getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
+        Log.d("SERVICE", "onCreate: bound");
         handler = new Handler();
         if(mBound){
             handler.post(new Runnable() {
@@ -82,6 +79,7 @@ public class TasksPreviewFragment extends Fragment {
         allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
+        Log.d("SERVICE", "updateTasksInList: update");
     }
 
 }
