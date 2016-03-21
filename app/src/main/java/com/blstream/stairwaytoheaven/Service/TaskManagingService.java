@@ -1,17 +1,15 @@
 package com.blstream.stairwaytoheaven.Service;
 
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.blstream.stairwaytoheaven.Interfaces.IAddingInterface;
-import com.blstream.stairwaytoheaven.Interfaces.ITask;
+import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
 
 import java.util.ArrayList;
@@ -24,6 +22,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         private Thread task;
         private TimeHolder timeHolder;
         private int taskId;
+        private boolean running;
+
 
         public TaskContainer(long durationTime, int taskId) {
             this.timeHolder = new TimeHolder(durationTime);
@@ -63,7 +63,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      * @return list of all queued task ids
      */
     @Override
-    public ArrayList<ITask> getAllTasksDetails() {
+    public ArrayList<TaskInformation> getAllTasksDetails() {
         return null;
     }
 
@@ -111,24 +111,26 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Override
     public void run() {
         while (true) {
-            for (TaskContainer task : taskQueue) {
-                if (executedCount < MAX_PARALLEL_TASKS_RUNNING && !task.task.isAlive()) {
-                    task.task.start();
-//                    taskPreviewFragment.returnAdapter().addItem(task.getId());
-
-                    executedCount++;
+            for (TaskContainer taskContainer : taskQueue) {
+                if (getExecutedCount() < MAX_PARALLEL_TASKS_RUNNING &&
+                        taskContainer.timeHolder.getElapsedTime() < taskContainer.timeHolder.getDuration() &&
+                        !taskContainer.task.isAlive()) {
+                    taskContainer.task.start();
+                    taskContainer.running = true;
                 }
-                System.out.println("task " + task.taskId + " time: " + task.timeHolder.getElapsedTime());
+
+                System.out.println("task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:"+taskContainer.running);
 
             }
-         //   removeFinished(taskQueue);
-
-//            taskPreviewFragment.returnAdapter().notifyDataSetChanged();
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private int getExecutedCount() {
+        for (TaskContainer taskContainer : taskQueue) {
     }
 }

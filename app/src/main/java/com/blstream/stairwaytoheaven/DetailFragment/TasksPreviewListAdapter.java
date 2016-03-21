@@ -8,41 +8,41 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITask;
+import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
 
 import java.util.ArrayList;
 
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
-    ArrayList<ITask> listOfTasks;
+    ArrayList<TaskInformation> listOfTasks;
 
     public TasksPreviewListAdapter() {
         listOfTasks = new ArrayList<>();
     }
 
-    public void addItem(ITask task) {
+    public void addItem(TaskInformation task) {
         listOfTasks.add(task);
         notifyItemInserted(listOfTasks.size() - 1);
     }
 
-    public void removeItem(ITask task) {
+    public void removeItem(TaskInformation task) {
         listOfTasks.remove(task);
         notifyItemRemoved(findTaskPositionInList(task));
     }
-    public void changeItem(ITask task){
+    public void changeItem(TaskInformation task){
         int itemIndex;
         if((itemIndex = findTaskPositionById(task.getTaskId())) != -1){
             listOfTasks.remove(itemIndex);
         }
     }
 
-    public int findTaskPositionInList(ITask task) {
+    public int findTaskPositionInList(TaskInformation task) {
 
         return listOfTasks.indexOf(task);
     }
     public int findTaskPositionById(int taskId){
-        ITask foundedTask;
-        for(ITask task : listOfTasks)
+        TaskInformation foundedTask;
+        for(TaskInformation task : listOfTasks)
         {
             if(task.getTaskId() == taskId){
                 foundedTask = task;

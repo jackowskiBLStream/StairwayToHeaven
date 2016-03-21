@@ -1,7 +1,5 @@
 package com.blstream.stairwaytoheaven.Service;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITask;
-
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
  */
