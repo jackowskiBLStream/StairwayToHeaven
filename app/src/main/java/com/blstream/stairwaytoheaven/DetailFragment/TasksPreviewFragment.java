@@ -27,7 +27,7 @@ public class TasksPreviewFragment extends Fragment {
 
     TasksPreviewListAdapter taskPreviewAdapter;
     TaskManagingService mService;
-    ArrayList<ITaskInformation> Tasks;
+    ArrayList<ITaskInformation> allTasks;
     private boolean mBound;
     Handler handler;
 
@@ -40,7 +40,7 @@ public class TasksPreviewFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.allTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(taskPreviewAdapter);
-        Tasks = taskPreviewAdapter.getListOfTasks();
+        allTasks = taskPreviewAdapter.getListOfTasks();
         return view;
     }
     @Override
@@ -75,8 +75,8 @@ public class TasksPreviewFragment extends Fragment {
     };
 
     private void updateTasksInList(){
-        Tasks = mService.getAllTasksDetails();
-        taskPreviewAdapter.replaceListOfTasks(Tasks);
+        allTasks = mService.getAllTasksDetails();
+        taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
     }
 

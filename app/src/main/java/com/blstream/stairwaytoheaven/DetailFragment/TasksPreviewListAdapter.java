@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 import com.blstream.stairwaytoheaven.R;
-import com.blstream.stairwaytoheaven.Tasks.TaskInformation;
+import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
 import java.util.ArrayList;
 
