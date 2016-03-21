@@ -1,4 +1,4 @@
-package com.blstream.stairwaytoheaven.Tasks;
+package com.blstream.stairwaytoheaven.Service;
 
 import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 
@@ -8,13 +8,14 @@ public class TaskInformation implements ITaskInformation {
     private String title;
     private int progress;
 
-    public TaskInformation(String title, int progress) {
+    public TaskInformation(String title, int progress, int id) {
         this.title = title;
         this.progress = progress;
+        this.id = id;
     }
 
     @Override
-    public String getTaskTitile(){
+    public String getTaskTitile() {
         return this.title;
     }
 
@@ -34,6 +35,7 @@ public class TaskInformation implements ITaskInformation {
     public void setProgress(int progress) {
         this.progress = progress;
     }
+
     @Override
     public int getTaskId() {
         return id;
