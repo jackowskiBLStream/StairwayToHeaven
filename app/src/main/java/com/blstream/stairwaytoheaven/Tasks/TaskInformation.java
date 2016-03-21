@@ -34,8 +34,8 @@ public class TaskInformation implements ITaskInformation {
     public void setProgress(int progress) {
         this.progress = progress;
     }
-
-    public int getId() {
+    @Override
+    public int getTaskId() {
         return id;
 
     }

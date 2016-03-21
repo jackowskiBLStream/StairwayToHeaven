@@ -3,7 +3,9 @@ package com.blstream.stairwaytoheaven.Interfaces;
 
 public interface ITaskInformation {
 
-    int getTaskTitile();
+    int getTaskId();
+
+    String getTaskTitile();
 
     /**
      *
