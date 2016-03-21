@@ -9,7 +9,7 @@ public class TaskInformation implements ITaskInformation {
     private int progress;
 
     public TaskInformation(long title, int progress, int id) {
-        this.title = title;
+        this.title = "chuj";
         this.progress = progress;
         this.id = id;
     }

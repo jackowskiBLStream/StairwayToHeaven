@@ -1,5 +1,6 @@
 package com.blstream.stairwaytoheaven.StartScreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 
 import com.blstream.stairwaytoheaven.Interfaces.IDialogHelper;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
+import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,8 @@ public class StartScreenFragment extends Fragment {
     private Button startButton;
     private ArrayAdapter<String> dataAdapter;
     private  List<String> list;
+    private MyServiceConnection myServiceConnection;
+    int taskIdGenerator;
 
     @Nullable
     @Override
@@ -67,6 +72,33 @@ public class StartScreenFragment extends Fragment {
         addListenerOnButton();
 
 
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        taskIdGenerator=0;
+        myServiceConnection = new MyServiceConnection();
+        Intent intent = new Intent(getContext(), TaskManagingService.class);
+        getContext().bindService(intent,myServiceConnection,getActivity().BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Called when the Fragment is no longer resumed.  This is generally
+     * tied to {@link Activity#onPause() Activity.onPause} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onPause() {
+        if(myServiceConnection.ismBound()){
+            getContext().unbindService(myServiceConnection);
+        }
     }
 
     private void addListenerOnSpinnerItemSelection() {
@@ -108,6 +140,9 @@ public class StartScreenFragment extends Fragment {
                         "On Button Click : " +
                                 "\n" + String.valueOf(spinner.getSelectedItem()),
                         Toast.LENGTH_LONG).show();
+
+                myServiceConnection.getmService().addTask(taskIdGenerator, 3000);
+                taskIdGenerator++;
                /* list.add("new for test");
                 updatedData(list);*/
 

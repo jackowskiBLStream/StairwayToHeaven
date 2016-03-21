@@ -85,6 +85,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         taskQueue = new ArrayList<>();
         servicethread = new Thread(this);
         servicethread.start();
+        Log.d(TAG, "onCreate: Thread started");
     }
 
     /**
@@ -110,7 +111,6 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        //FIXME: why?
 
         Log.d("SERVICE", "bound");
         return mBinder;
