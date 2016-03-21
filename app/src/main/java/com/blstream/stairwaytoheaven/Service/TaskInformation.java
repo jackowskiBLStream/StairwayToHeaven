@@ -1,4 +1,4 @@
-package com.blstream.stairwaytoheaven.Tasks;
+package com.blstream.stairwaytoheaven.Service;
 
 import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 
