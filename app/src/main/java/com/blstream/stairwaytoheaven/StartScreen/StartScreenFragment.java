@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.blstream.stairwaytoheaven.Interfaces.IDialogHelper;
 import com.blstream.stairwaytoheaven.R;
 
 import java.util.ArrayList;
@@ -26,15 +27,11 @@ public class StartScreenFragment extends Fragment {
     public static final String USER_TIME = "Zdefiniuj wlasny czas...";
     public static final String DIALOG_TAG = "Define time Dialog Fragment";
 
+    private IDialogHelper listener;
     private Spinner spinner;
     private Button startButton;
     private ArrayAdapter<String> dataAdapter;
     private  List<String> list;
-    private long time;
-
-    public long getTime() {
-        return time;
-    }
 
     @Nullable
     @Override
@@ -82,8 +79,7 @@ public class StartScreenFragment extends Fragment {
                     DialogFragment dialogFragment = new DialogFragment();
                     dialogFragment.show(fm, DIALOG_TAG);
                     dialogFragment.setFragment(StartScreenFragment.this);
-                    dialogFragment.setDataAdapter(dataAdapter);
-                    dialogFragment.setList(list);
+//                    listener.onListen(list, dataAdapter);
 
                 }
 
@@ -97,7 +93,9 @@ public class StartScreenFragment extends Fragment {
     }
 
 
-
+    public void setListener(IDialogHelper listener) {
+        this.listener = listener;
+    }
 
     private void addListenerOnButton() {
 
@@ -110,7 +108,9 @@ public class StartScreenFragment extends Fragment {
                         "On Button Click : " +
                                 "\n" + String.valueOf(spinner.getSelectedItem()),
                         Toast.LENGTH_LONG).show();
-                time = (long) spinner.getSelectedItem() * 1000;
+               /* list.add("new for test");
+                updatedData(list);*/
+
             }
 
         });
