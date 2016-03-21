@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * ServiceManager interface containing very important methods
  */
-public interface IServiceManager {
+public interface ITaskManagingService {
     /**
      *
      * @param taskId Id of task
@@ -25,7 +25,7 @@ public interface IServiceManager {
      * @param task
      * @returns true if properly added, false if not
      */
-    boolean addTask(IService task);
+    boolean addTask(ISingleTask task);
 
     /**
      *

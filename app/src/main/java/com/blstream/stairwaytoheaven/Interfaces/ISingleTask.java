@@ -5,7 +5,7 @@ import android.content.Context;
 /**
  *
  */
-public interface IService {
+public interface ISingleTask {
 
     /**
      *
