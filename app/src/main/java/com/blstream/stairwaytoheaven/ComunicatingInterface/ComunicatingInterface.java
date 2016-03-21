@@ -1,4 +1,4 @@
-package com.blstream.stairwaytoheaven;
+package com.blstream.stairwaytoheaven.ComunicatingInterface;
 
 /**
  * Created by Krzysztof Antczak on 21.03.2016.
