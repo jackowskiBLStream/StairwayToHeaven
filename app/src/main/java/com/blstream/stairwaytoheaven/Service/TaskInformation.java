@@ -8,7 +8,7 @@ public class TaskInformation implements ITaskInformation {
     private String title;
     private int progress;
 
-    public TaskInformation(String title, int progress, int id) {
+    public TaskInformation(long title, int progress, int id) {
         this.title = title;
         this.progress = progress;
         this.id = id;
