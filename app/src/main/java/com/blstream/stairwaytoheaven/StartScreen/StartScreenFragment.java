@@ -134,13 +134,8 @@ public class StartScreenFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(getActivity(),
-                        "On Button Click : " +
-                                "\n" + String.valueOf(spinner.getSelectedItem()),
-                        Toast.LENGTH_LONG).show();
-
-                myServiceConnection.getmService().addTask(taskIdGenerator, 3000);
+                //TODO Ogartnij ten czas majster
+                myServiceConnection.getmService().addTask(taskIdGenerator,  10000);
                 taskIdGenerator++;
                /* list.add("new for test");
                 updatedData(list);*/

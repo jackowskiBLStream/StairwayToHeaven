@@ -5,17 +5,17 @@ import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 
 public class TaskInformation implements ITaskInformation {
     private int id;
-    private String title;
+    private long title;
     private int progress;
 
     public TaskInformation(long title, int progress, int id) {
-        this.title = "chuj";
+        this.title = title;
         this.progress = progress;
         this.id = id;
     }
 
     @Override
-    public String getTaskTitile() {
+    public long getTaskDuration() {
         return this.title;
     }
 
@@ -28,7 +28,7 @@ public class TaskInformation implements ITaskInformation {
         this.id = id;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(long title) {
         this.title = title;
     }
 
