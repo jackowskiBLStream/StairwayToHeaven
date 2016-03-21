@@ -77,6 +77,7 @@ public class TasksPreviewFragment extends Fragment {
     private void updateTasksInList(){
         Tasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(Tasks);
+        taskPreviewAdapter.notifyDataSetChanged();
     }
 
 }

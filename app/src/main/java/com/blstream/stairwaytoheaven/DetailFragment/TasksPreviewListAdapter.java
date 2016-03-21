@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Tasks.TaskInformation;
 
 import java.util.ArrayList;
 
@@ -20,44 +21,13 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
         listOfTasks = new ArrayList<>();
     }
 
-    public void addItem(ITaskInformation task) {
-        listOfTasks.add(task);
-        notifyItemInserted(listOfTasks.size() - 1);
-    }
-
-    public void removeItem(ITaskInformation task) {
-        listOfTasks.remove(task);
-        notifyItemRemoved(findTaskPositionInList(task));
-    }
-    public void changeItem(ITaskInformation task){
-        int itemIndex;
-        if((itemIndex = findTaskPositionById(task.getTaskId())) != -1){
-            listOfTasks.remove(itemIndex);
-        }
-    }
-
-    public int findTaskPositionInList(ITaskInformation task) {
-
-        return listOfTasks.indexOf(task);
-    }
-    public int findTaskPositionById(int taskId){
-        ITaskInformation foundedTask;
-        for(ITaskInformation task : listOfTasks)
-        {
-            if(task.getTaskId() == taskId){
-                foundedTask = task;
-                return listOfTasks.indexOf(foundedTask);
-            }
-        }
-        return -1;
-    }
     public ArrayList<ITaskInformation> getListOfTasks(){
         return listOfTasks;
     }
+
     public void replaceListOfTasks(ArrayList<ITaskInformation> list)
     {
         this.listOfTasks = list;
-        notifyDataSetChanged();
     }
 
     @Override

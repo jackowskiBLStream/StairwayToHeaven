@@ -1,5 +1,6 @@
 package com.blstream.stairwaytoheaven.DetailFragment;
 
+import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 import com.blstream.stairwaytoheaven.Tasks.TaskInformation;
 
 import org.junit.Before;
@@ -15,18 +16,32 @@ import static org.junit.Assert.*;
  */
 public class TasksPreviewListAdapterTest {
     TasksPreviewListAdapter adapter;
-    ArrayList<TaskInformation> arrayOfTasks;
+    ArrayList<ITaskInformation> Tasks;
     @Before
     public void setup(){
         adapter = new TasksPreviewListAdapter();
-        arrayOfTasks = new ArrayList<>();
+        Tasks = new ArrayList<>();
     }
     @Test
     public void shouldReturnEmptyArray(){
         //given
+        Object[] arrayOfTaskFromList = Tasks.toArray();
         //when
+        Object[] arrayOfTaskFromAdapter = adapter.getListOfTasks().toArray();
         //then
-        assertArrayEquals(arrayOfTasks.toArray(),
-                adapter.getListOfTasks().toArray());
+        assertArrayEquals(arrayOfTaskFromAdapter,arrayOfTaskFromList);
+    }
+
+    @Test
+    public void shouldAddArrayToAdapter(){
+        //given
+        Tasks.add(new TaskInformation("ABC", 5));
+        Tasks.add(new TaskInformation("ABCD", 6));
+        Object[] arrayofTasks = Tasks.toArray();
+        //when
+        adapter.replaceListOfTasks(Tasks);
+        Object[] arrayOfTaskFromAdapter = adapter.getListOfTasks().toArray();
+        //then
+        assertArrayEquals(arrayofTasks,arrayOfTaskFromAdapter);
     }
 }
