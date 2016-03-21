@@ -17,6 +17,8 @@ import java.util.ArrayList;
  * Created by Patryk Gwiazdowski on 21.03.2016.
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider, Runnable {
+    private static final String TAG = "SERVICE";
+
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
@@ -55,10 +57,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Override
     public ArrayList<TaskInformation> getAllTasksDetails() {
         ArrayList<TaskInformation> list = new ArrayList<>();
-
         for (TaskContainer container : taskQueue) {
-            //FIXME: string resources & not in service
-            list.add(new TaskInformation("Operacja przewidziana na " + container.timeHolder.getDuration() / 1000 + " sekund",
+            list.add(new TaskInformation(container.timeHolder.getDuration(),
                     calculateProgress(container.timeHolder),
                     container.taskId));
         }
@@ -72,9 +72,19 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
 
     public class LocalBinder extends Binder {
         public TaskManagingService getService() {
-            taskQueue = new ArrayList<>(); //FIXME: why?
             return TaskManagingService.this;
         }
+    }
+
+    /**
+     * Called by the system when the service is first created.  Do not call this method directly.
+     */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        taskQueue = new ArrayList<>();
+        servicethread = new Thread(this);
+        servicethread.start();
     }
 
     /**
@@ -101,10 +111,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Override
     public IBinder onBind(Intent intent) {
         //FIXME: why?
-        taskQueue = new ArrayList<>();
-        servicethread = new Thread(this);
-        servicethread.start();
-        Log.d("SERVICE", "started");
+
+        Log.d("SERVICE", "bound");
         return mBinder;
     }
 
@@ -127,8 +135,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
                     taskContainer.running = true;
                 }
 
-                //FIXME: use logger
-                System.out.println("task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
+                Log.d(TAG, "run: "+"task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
+                System.out.println();
 
             }
             try {
