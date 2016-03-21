@@ -1,11 +1,8 @@
 package com.blstream.stairwaytoheaven.MainManager;
 
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -18,7 +15,6 @@ import android.util.Log;
 
 import com.blstream.stairwaytoheaven.DetailFragment.TasksPreviewFragment;
 import com.blstream.stairwaytoheaven.R;
-import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
