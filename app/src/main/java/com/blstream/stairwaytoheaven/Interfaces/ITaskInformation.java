@@ -5,7 +5,7 @@ public interface ITaskInformation {
 
     int getTaskId();
 
-    String getTaskTitile();
+    long getTaskDuration();
 
     /**
      *

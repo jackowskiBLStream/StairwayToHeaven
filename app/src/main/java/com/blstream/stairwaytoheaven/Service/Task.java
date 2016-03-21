@@ -2,6 +2,7 @@ package com.blstream.stairwaytoheaven.Service;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
+ *
  */
 public class Task implements Runnable {
     static final long updateInterval = 500;
@@ -19,7 +20,7 @@ public class Task implements Runnable {
     @Override
     public void run() {
         while (timeHolder.getElapsedTime() < timeHolder.getDuration()) {
-            try {
+            try { //FIXME kick out sleep
                 Thread.sleep(updateInterval);
             } catch (InterruptedException e) {
                 e.printStackTrace();
