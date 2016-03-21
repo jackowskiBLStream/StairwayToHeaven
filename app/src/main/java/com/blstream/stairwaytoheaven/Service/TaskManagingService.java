@@ -17,15 +17,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
+ *
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider {
-    private static final String TAG = "SERVICE";
 
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
         private int taskId;
-        private boolean running;
 
 
         public TaskContainer(long durationTime, int taskId) {
@@ -39,7 +38,6 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     private static final int MAX_PARALLEL_TASKS_RUNNING = 4;
     private ArrayList<TaskContainer> taskQueue;
     private final IBinder mBinder = new LocalBinder();
-    private Thread servicethread;
     ThreadPoolExecutor executor;
 
     /**
@@ -88,7 +86,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     public void onCreate() {
         super.onCreate();
         taskQueue = new ArrayList<>();
-        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(4);
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_PARALLEL_TASKS_RUNNING);
     }
 
     /**
