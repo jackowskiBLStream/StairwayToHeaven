@@ -42,14 +42,11 @@ public class TasksPreviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         taskPreviewAdapter = new TasksPreviewListAdapter();
 
-//        Intent intent  = new Intent(getContext(),)
-
-
-
+        Intent intent  = new Intent(getContext(),TaskManagingService.class);
+        getContext().bindService(intent,mConnection,Context.BIND_ABOVE_CLIENT);
     }
     private ServiceConnection mConnection = new ServiceConnection()
     {
-
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
@@ -64,7 +61,4 @@ public class TasksPreviewFragment extends Fragment {
             mBound = false;
         }
     };
-
-
-
 }
