@@ -110,7 +110,7 @@ public class StartScreenFragment extends Fragment {
                         "On Button Click : " +
                                 "\n" + String.valueOf(spinner.getSelectedItem()),
                         Toast.LENGTH_LONG).show();
-                time = (long) spinner.getSelectedItem();
+                time = (long) spinner.getSelectedItem() * 1000;
             }
 
         });
