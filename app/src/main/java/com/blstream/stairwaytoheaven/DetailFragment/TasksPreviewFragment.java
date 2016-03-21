@@ -16,8 +16,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
+
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
 import java.util.ArrayList;

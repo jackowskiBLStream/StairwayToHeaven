@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
 import java.util.ArrayList;
 

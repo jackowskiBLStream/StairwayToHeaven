@@ -8,7 +8,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.blstream.stairwaytoheaven.Interfaces.IAddingInterface;
-import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
 import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
 
 import java.util.ArrayList;
