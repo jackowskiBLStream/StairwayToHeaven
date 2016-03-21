@@ -14,13 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.blstream.stairwaytoheaven.Interfaces.IService;
+//import com.blstream.stairwaytoheaven.Interfaces.IService;
 import com.blstream.stairwaytoheaven.R;
 
 public class TasksPreviewFragment extends Fragment {
 
     TasksPreviewListAdapter taskPreviewAdapter;
-    IService mService;
+//    IService mService;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

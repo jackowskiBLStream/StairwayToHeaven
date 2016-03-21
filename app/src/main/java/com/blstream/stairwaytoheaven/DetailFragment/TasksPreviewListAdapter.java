@@ -61,8 +61,8 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
 
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
-        holder.mTitle.setText(this.listOfTasks.get(position).getTaskDuration());
-        holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskTime());
+        holder.mTitle.setText(this.listOfTasks.get(position).getTaskTitile());
+        holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
     }
 
     @Override

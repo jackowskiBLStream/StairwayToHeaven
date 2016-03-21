@@ -6,8 +6,8 @@ public interface ITask {
 
     int getTaskId();
 
-    int getTaskDuration();
+    int getTaskTitile();
 
-    int getTaskTime();
+    int getTaskProgress();
 
 }
