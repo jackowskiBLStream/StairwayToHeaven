@@ -30,11 +30,7 @@ public class StartScreenFragment extends Fragment {
     private Button startButton;
     private ArrayAdapter<String> dataAdapter;
     private  List<String> list;
-    private long time;
 
-    public long getTime() {
-        return time;
-    }
 
     @Nullable
     @Override
@@ -110,28 +106,12 @@ public class StartScreenFragment extends Fragment {
                         "On Button Click : " +
                                 "\n" + String.valueOf(spinner.getSelectedItem()),
                         Toast.LENGTH_LONG).show();
-                time = (long) spinner.getSelectedItem() * 1000;
             }
 
         });
     }
 
-    private void updatedData(List<String> list) {
-        List<String> tmpList = new ArrayList<>(list);
 
-        dataAdapter.clear();
-
-        for (String string : tmpList) {
-            if(string.equals(USER_TIME)){
-                continue;
-            }
-            dataAdapter.insert(string, dataAdapter.getCount());
-        }
-        dataAdapter.insert(USER_TIME, dataAdapter.getCount());
-
-        dataAdapter.notifyDataSetChanged();
-
-    }
 
 
 }

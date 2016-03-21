@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
-
+import com.blstream.stairwaytoheaven.DetailFragment.TasksPreviewFragment;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch(position){
                 case 0: return new StartScreenFragment();
-                case 1: return new StartScreenFragment();
+                case 1: return new TasksPreviewFragment();
                 default: return null;
             }
         }

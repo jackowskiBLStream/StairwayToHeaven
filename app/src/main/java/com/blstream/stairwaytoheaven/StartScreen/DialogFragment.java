@@ -70,7 +70,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                isValid = Integer.parseInt(s.toString()) >= 0;
+                isValid = Integer.parseInt(s.toString()) > 0;
 
 
             }
