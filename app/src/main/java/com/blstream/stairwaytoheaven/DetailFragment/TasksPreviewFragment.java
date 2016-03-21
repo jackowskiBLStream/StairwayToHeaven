@@ -2,9 +2,9 @@ package com.blstream.stairwaytoheaven.DetailFragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,6 +35,7 @@ public class TasksPreviewFragment extends Fragment {
         taskPreviewAdapter = new TasksPreviewListAdapter();
 
 //        Intent intent  = new Intent(getContext(),)
+
 
 
     }
