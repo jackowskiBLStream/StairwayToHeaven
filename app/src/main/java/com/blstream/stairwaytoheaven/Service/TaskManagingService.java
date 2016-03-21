@@ -17,6 +17,8 @@ import java.util.ArrayList;
  * Created by Patryk Gwiazdowski on 21.03.2016.
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider, Runnable {
+    private static final String TAG = "SERVICE";
+
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
@@ -55,9 +57,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Override
     public ArrayList<TaskInformation> getAllTasksDetails() {
         ArrayList<TaskInformation> list = new ArrayList<>();
-
         for (TaskContainer container : taskQueue) {
-            list.add(new TaskInformation("Operacja przewidziana na " + container.timeHolder.getDuration() / 1000 + " sekund",
+            list.add(new TaskInformation(container.timeHolder.getDuration(),
                     calculateProgress(container.timeHolder),
                     container.taskId));
         }
@@ -71,9 +72,20 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
 
     public class LocalBinder extends Binder {
         public TaskManagingService getService() {
-            taskQueue = new ArrayList<>();
             return TaskManagingService.this;
         }
+    }
+
+    /**
+     * Called by the system when the service is first created.  Do not call this method directly.
+     */
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        taskQueue = new ArrayList<>();
+        servicethread = new Thread(this);
+        servicethread.start();
+        Log.d(TAG, "onCreate: Thread started");
     }
 
     /**
@@ -99,28 +111,36 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        taskQueue = new ArrayList<>();
-        servicethread = new Thread(this);
-        servicethread.start();
-        Log.d("SERVICE", "started");
+
+        Log.d("SERVICE", "bound");
         return mBinder;
     }
 
     @Override
     public void run() {
+
+        //TODO: maybe ThreadPoolExecutor ?
+        //TODO: maybe BlockingQueue ?
+
         while (true) {
             for (TaskContainer taskContainer : taskQueue) {
-                if (getExecutedCount() < MAX_PARALLEL_TASKS_RUNNING &&
-                        taskContainer.timeHolder.getElapsedTime() < taskContainer.timeHolder.getDuration() &&
-                        !taskContainer.task.isAlive()) {
+                //FIXME: too complicated if, move to method
+                //FIXME: too many nested brackets
+                if (
+                        getExecutedCount() < MAX_PARALLEL_TASKS_RUNNING
+                        && taskContainer.timeHolder.getElapsedTime() < taskContainer.timeHolder.getDuration()
+                        && !taskContainer.task.isAlive()
+                   ) {
                     taskContainer.task.start();
                     taskContainer.running = true;
                 }
 
-                System.out.println("task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
+                Log.d(TAG, "run: "+"task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
+                System.out.println();
 
             }
             try {
+                //FIXME: hmmm :)
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();

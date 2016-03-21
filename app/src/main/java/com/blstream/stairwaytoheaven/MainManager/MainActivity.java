@@ -1,6 +1,8 @@
 package com.blstream.stairwaytoheaven.MainManager;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -8,10 +10,13 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 
 import com.blstream.stairwaytoheaven.DetailFragment.TasksPreviewFragment;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
+import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+        Intent intent = new Intent(this, TaskManagingService.class);
+        startService(intent);
+        Log.d("SERVICE", "started");
     }
 
     @Override
@@ -66,10 +74,13 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            switch(position){
-                case 0: return new StartScreenFragment();
-                case 1: return new TasksPreviewFragment();
-                default: return null;
+            switch (position) {
+                case 0:
+                    return new StartScreenFragment();
+                case 1:
+                    return new TasksPreviewFragment();
+                default:
+                    return null;
             }
         }
 
@@ -77,5 +88,6 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
             return NUM_PAGES;
         }
+
     }
 }

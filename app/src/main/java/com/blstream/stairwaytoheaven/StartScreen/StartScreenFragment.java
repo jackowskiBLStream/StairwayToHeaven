@@ -1,5 +1,6 @@
 package com.blstream.stairwaytoheaven.StartScreen;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,8 @@ public class StartScreenFragment extends Fragment {
     private Button startButton;
     private ArrayAdapter<String> dataAdapter;
     private  List<String> list;
+    private MyServiceConnection myServiceConnection;
+    int taskIdGenerator;
 
 
     @Nullable
@@ -68,6 +71,34 @@ public class StartScreenFragment extends Fragment {
 
     }
 
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        taskIdGenerator=0;
+        myServiceConnection = new MyServiceConnection();
+        Intent intent = new Intent(getContext(), TaskManagingService.class);
+        getContext().bindService(intent,myServiceConnection,getActivity().BIND_AUTO_CREATE);
+    }
+
+    /**
+     * Called when the Fragment is no longer resumed.  This is generally
+     * tied to {@link Activity#onPause() Activity.onPause} of the containing
+     * Activity's lifecycle.
+     */
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(myServiceConnection.ismBound()){
+            getContext().unbindService(myServiceConnection);
+        }
+    }
+
     private void addListenerOnSpinnerItemSelection() {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -78,8 +109,7 @@ public class StartScreenFragment extends Fragment {
                     DialogFragment dialogFragment = new DialogFragment();
                     dialogFragment.show(fm, DIALOG_TAG);
                     dialogFragment.setFragment(StartScreenFragment.this);
-                    dialogFragment.setDataAdapter(dataAdapter);
-                    dialogFragment.setList(list);
+//                    listener.onListen(list, dataAdapter);
 
                 }
 
@@ -93,6 +123,9 @@ public class StartScreenFragment extends Fragment {
     }
 
 
+    public void setListener(IDialogHelper listener) {
+        this.listener = listener;
+    }
 
 
     private void addListenerOnButton() {
@@ -106,12 +139,33 @@ public class StartScreenFragment extends Fragment {
                         "On Button Click : " +
                                 "\n" + String.valueOf(spinner.getSelectedItem()),
                         Toast.LENGTH_LONG).show();
+
+                myServiceConnection.getmService().addTask(taskIdGenerator, 3000);
+                taskIdGenerator++;
+               /* list.add("new for test");
+                updatedData(list);*/
+
             }
 
         });
     }
 
+    private void updatedData(List<String> list) {
+        List<String> tmpList = new ArrayList<>(list);
 
+        dataAdapter.clear();
+
+        for (String string : tmpList) {
+            if(string.equals(USER_TIME)){
+                continue;
+            }
+            dataAdapter.insert(string, dataAdapter.getCount());
+        }
+        dataAdapter.insert(USER_TIME, dataAdapter.getCount());
+
+        dataAdapter.notifyDataSetChanged();
+
+    }
 
 
 }

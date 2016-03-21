@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-
-
+<<<<<<< HEAD
+=======
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
-
+>>>>>>> e999cd1dd4a19651fedd09ceacac5d789fc22ff5
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
@@ -42,8 +42,10 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
 
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
-        holder.mTitle.setText(this.listOfTasks.get(position).getTaskTitile());
-        holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
+        if(listOfTasks.size() != 0) {
+            holder.mTitle.setText(this.listOfTasks.get(position).getTaskTitile());
+            holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
+        }
     }
 
     @Override
