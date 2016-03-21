@@ -25,11 +25,19 @@ import java.util.ArrayList;
 
 public class TasksPreviewFragment extends Fragment {
 
+    private static final int DELAYED_TIME_IN_MILLISECONDS = 500;
+
     TasksPreviewListAdapter taskPreviewAdapter;
+    private static Handler handler = new Handler();
     TaskManagingService mService;
     ArrayList<TaskInformation> allTasks;
-    private boolean mBound;
-    Handler handler;
+    private Runnable mStatusChecker = new Runnable(){
+        @Override
+        public void run() {
+            updateTasksInList();
+            handler.postDelayed(mStatusChecker, DELAYED_TIME_IN_MILLISECONDS);
+        }
+    };
 
 
     @Override
@@ -47,21 +55,6 @@ public class TasksPreviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         taskPreviewAdapter = new TasksPreviewListAdapter();
-        Intent intent  = new Intent(getContext(),TaskManagingService.class);
-        getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
-        Log.d("SERVICE", "onCreate: bound");
-        handler = new Handler(); //FIXME: za duzo handlerów
-        if(mBound){
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    updateTasksInList();
-
-                    //FIXME: powtórz odświeżanie po 500ms
-                    //FIXME: handler.coś
-                }
-            });
-        }
     }
     private ServiceConnection mConnection = new ServiceConnection()
     {
@@ -70,13 +63,10 @@ public class TasksPreviewFragment extends Fragment {
                                        IBinder service) {
             TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
             mService = binder.getService();
-            mBound = true;
-
-            //FIXME: tutaj zaczynamy update'y
+            mStatusChecker.run();
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-            mBound = false;
         }
     };
 
@@ -84,9 +74,21 @@ public class TasksPreviewFragment extends Fragment {
         allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
-        Log.d("SERVICE", "updateTasksInList: update");
+        Log.d("FRAGMENT UPDATE ADAPTER", "updateTasksInList: update");
     }
 
-    //TODO: unbind
+    @Override
+    public void onPause() {
+        super.onPause();
+        getContext().unbindService(mConnection);
+    }
+
+    @Override
+    public void onResume(){
+        super.onStart();
+        Intent intent  = new Intent(getContext(),TaskManagingService.class);
+        getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
+        Log.d("FRAGMENT BOUND", "onCreate: bound");
+    }
 
 }
