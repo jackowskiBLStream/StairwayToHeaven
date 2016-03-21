@@ -50,12 +50,15 @@ public class TasksPreviewFragment extends Fragment {
         Intent intent  = new Intent(getContext(),TaskManagingService.class);
         getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
         Log.d("SERVICE", "onCreate: bound");
-        handler = new Handler();
+        handler = new Handler(); //FIXME: za duzo handlerów
         if(mBound){
             handler.post(new Runnable() {
                 @Override
                 public void run() {
                     updateTasksInList();
+
+                    //FIXME: powtórz odświeżanie po 500ms
+                    //FIXME: handler.coś
                 }
             });
         }
@@ -68,6 +71,8 @@ public class TasksPreviewFragment extends Fragment {
             TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+
+            //FIXME: tutaj zaczynamy update'y
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
@@ -81,5 +86,7 @@ public class TasksPreviewFragment extends Fragment {
         taskPreviewAdapter.notifyDataSetChanged();
         Log.d("SERVICE", "updateTasksInList: update");
     }
+
+    //TODO: unbind
 
 }

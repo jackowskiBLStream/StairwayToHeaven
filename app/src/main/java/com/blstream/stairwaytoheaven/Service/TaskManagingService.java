@@ -57,6 +57,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         ArrayList<TaskInformation> list = new ArrayList<>();
 
         for (TaskContainer container : taskQueue) {
+            //FIXME: string resources & not in service
             list.add(new TaskInformation("Operacja przewidziana na " + container.timeHolder.getDuration() / 1000 + " sekund",
                     calculateProgress(container.timeHolder),
                     container.taskId));
@@ -71,7 +72,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
 
     public class LocalBinder extends Binder {
         public TaskManagingService getService() {
-            taskQueue = new ArrayList<>();
+            taskQueue = new ArrayList<>(); //FIXME: why?
             return TaskManagingService.this;
         }
     }
@@ -99,6 +100,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        //FIXME: why?
         taskQueue = new ArrayList<>();
         servicethread = new Thread(this);
         servicethread.start();
@@ -108,19 +110,29 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
 
     @Override
     public void run() {
+
+        //TODO: maybe ThreadPoolExecutor ?
+        //TODO: maybe BlockingQueue ?
+
         while (true) {
             for (TaskContainer taskContainer : taskQueue) {
-                if (getExecutedCount() < MAX_PARALLEL_TASKS_RUNNING &&
-                        taskContainer.timeHolder.getElapsedTime() < taskContainer.timeHolder.getDuration() &&
-                        !taskContainer.task.isAlive()) {
+                //FIXME: too complicated if, move to method
+                //FIXME: too many nested brackets
+                if (
+                        getExecutedCount() < MAX_PARALLEL_TASKS_RUNNING
+                        && taskContainer.timeHolder.getElapsedTime() < taskContainer.timeHolder.getDuration()
+                        && !taskContainer.task.isAlive()
+                   ) {
                     taskContainer.task.start();
                     taskContainer.running = true;
                 }
 
+                //FIXME: use logger
                 System.out.println("task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
 
             }
             try {
+                //FIXME: hmmm :)
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();

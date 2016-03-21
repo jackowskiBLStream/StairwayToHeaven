@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -28,9 +29,9 @@ public class ErastostenesSieveTest {
     public void testInitialCandidates4Primes() {
         // given
         int lastNumer = 30;
-        ArrayList<Integer> expectedList = new ArrayList<Integer>(
+        List<Integer> expectedList =
                 Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-                        16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30));
+                        16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30);
         // when
         ErastostenesSieve erastostenesSieve = new ErastostenesSieve(lastNumer);
         // then
@@ -47,7 +48,7 @@ public class ErastostenesSieveTest {
         ErastostenesSieve erastostenesSieve = new ErastostenesSieve(lastNumer);
         erastostenesSieve.initalcandidates4Prime();
         // then
-        assertFalse(erastostenesSieve.IsCurrentMultipleNumerAPrime(number2Check, mutliplier));
+        assertFalse(erastostenesSieve.IsCurrentMultipleNumberAPrime(number2Check, mutliplier));
     }
     @Test
     public void testPrimeIsCurrentMultipleNumerAPrime() {
@@ -59,7 +60,7 @@ public class ErastostenesSieveTest {
         ErastostenesSieve erastostenesSieve = new ErastostenesSieve(lastNumer);
         erastostenesSieve.initalcandidates4Prime();
         // then
-        assertTrue(erastostenesSieve.IsCurrentMultipleNumerAPrime(number2Check, multiplier));
+        assertTrue(erastostenesSieve.IsCurrentMultipleNumberAPrime(number2Check, multiplier));
     }
 
     @Test
