@@ -51,6 +51,14 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
         }
         return -1;
     }
+    public ArrayList<ITask> getListOfTasks(){
+        return listOfTasks;
+    }
+    public void replaceListOfTasks(ArrayList<ITask> list)
+    {
+        this.listOfTasks = list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public TasksPreviewListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
