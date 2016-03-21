@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.blstream.stairwaytoheaven.Interfaces.IAddingInterface;
 import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
- *
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider, Runnable {
     private class TaskContainer {
@@ -35,6 +35,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     private static final int MAX_PARALLEL_TASKS_RUNNING = 4;
     private ArrayList<TaskContainer> taskQueue;
     private final IBinder mBinder = new LocalBinder();
+    private Thread servicethread;
 
     /**
      * adds new task to queue in Service
@@ -53,12 +54,24 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      */
     @Override
     public ArrayList<TaskInformation> getAllTasksDetails() {
-        return null;
+        ArrayList<TaskInformation> list = new ArrayList<>();
+
+        for (TaskContainer container : taskQueue) {
+            list.add(new TaskInformation("Operacja przewidziana na " + container.timeHolder.getDuration() / 1000 + " sekund",
+                    calculateProgress(container.timeHolder),
+                    container.taskId));
+        }
+        return list;
+    }
+
+    private int calculateProgress(TimeHolder time) {
+        return (int) ((time.getElapsedTime() * 100) / time.getDuration());
     }
 
 
     public class LocalBinder extends Binder {
         public TaskManagingService getService() {
+            taskQueue = new ArrayList<>();
             return TaskManagingService.this;
         }
     }
@@ -87,6 +100,9 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     @Override
     public IBinder onBind(Intent intent) {
         taskQueue = new ArrayList<>();
+        servicethread = new Thread(this);
+        servicethread.start();
+        Log.d("SERVICE", "started");
         return mBinder;
     }
 
@@ -101,7 +117,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
                     taskContainer.running = true;
                 }
 
-                System.out.println("task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:"+taskContainer.running);
+                System.out.println("task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
 
             }
             try {
@@ -113,9 +129,9 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     }
 
     private int getExecutedCount() {
-        int count=0;
+        int count = 0;
         for (TaskContainer taskContainer : taskQueue) {
-            if(taskContainer.running){
+            if (taskContainer.running) {
                 count++;
             }
         }
