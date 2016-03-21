@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
      */
     private PagerAdapter mPagerAdapter;
 
-    protected MyServiceConnection mConnection;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +47,8 @@ public class MainActivity extends AppCompatActivity {
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
         Intent intent = new Intent(this, TaskManagingService.class);
-        mConnection = new MyServiceConnection();
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        Log.d("SERVICE", "bound");
+        startService(intent);
+        Log.d("SERVICE", "started");
     }
 
     @Override
