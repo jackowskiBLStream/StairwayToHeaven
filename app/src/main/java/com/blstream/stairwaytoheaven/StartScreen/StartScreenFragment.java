@@ -96,6 +96,7 @@ public class StartScreenFragment extends Fragment {
      */
     @Override
     public void onPause() {
+        super.onPause();
         if(myServiceConnection.ismBound()){
             getContext().unbindService(myServiceConnection);
         }
