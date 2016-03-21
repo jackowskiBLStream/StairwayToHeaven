@@ -8,41 +8,41 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.stairwaytoheaven.Interfaces.TaskInformation;
+import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 import com.blstream.stairwaytoheaven.R;
 
 import java.util.ArrayList;
 
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
-    ArrayList<TaskInformation> listOfTasks;
+    ArrayList<ITaskInformation> listOfTasks;
 
     public TasksPreviewListAdapter() {
         listOfTasks = new ArrayList<>();
     }
 
-    public void addItem(TaskInformation task) {
+    public void addItem(ITaskInformation task) {
         listOfTasks.add(task);
         notifyItemInserted(listOfTasks.size() - 1);
     }
 
-    public void removeItem(TaskInformation task) {
+    public void removeItem(ITaskInformation task) {
         listOfTasks.remove(task);
         notifyItemRemoved(findTaskPositionInList(task));
     }
-    public void changeItem(TaskInformation task){
+    public void changeItem(ITaskInformation task){
         int itemIndex;
         if((itemIndex = findTaskPositionById(task.getTaskId())) != -1){
             listOfTasks.remove(itemIndex);
         }
     }
 
-    public int findTaskPositionInList(TaskInformation task) {
+    public int findTaskPositionInList(ITaskInformation task) {
 
         return listOfTasks.indexOf(task);
     }
     public int findTaskPositionById(int taskId){
-        TaskInformation foundedTask;
-        for(TaskInformation task : listOfTasks)
+        ITaskInformation foundedTask;
+        for(ITaskInformation task : listOfTasks)
         {
             if(task.getTaskId() == taskId){
                 foundedTask = task;
@@ -51,10 +51,10 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
         }
         return -1;
     }
-    public ArrayList<ITask> getListOfTasks(){
+    public ArrayList<ITaskInformation> getListOfTasks(){
         return listOfTasks;
     }
-    public void replaceListOfTasks(ArrayList<ITask> list)
+    public void replaceListOfTasks(ArrayList<ITaskInformation> list)
     {
         this.listOfTasks = list;
         notifyDataSetChanged();
