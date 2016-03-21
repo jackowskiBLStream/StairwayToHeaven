@@ -21,7 +21,7 @@ public class TaskManagingService extends Service {
     private final IBinder mBinder = new LocalBinder();
 
     public class LocalBinder extends Binder {
-        TaskManagingService getService() {
+        public TaskManagingService getService() {
             //zwracamy instancje serwisu, przez nią odwołamy się następnie do metod.
             return TaskManagingService.this;
         }

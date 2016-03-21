@@ -14,13 +14,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-//import com.blstream.stairwaytoheaven.Interfaces.IService;
+
+import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
 public class TasksPreviewFragment extends Fragment {
 
     TasksPreviewListAdapter taskPreviewAdapter;
-//    IService mService;
+    TaskManagingService mService;
+    private boolean mBound;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,22 +47,24 @@ public class TasksPreviewFragment extends Fragment {
 
 
     }
-//    private ServiceConnection mConnection = new ServiceConnection()
-//    {
-//
-//        @Override
-//        public void onServiceConnected(ComponentName className,
-//                                       IBinder service) {
-//            // We've bound to LocalService, cast the IBinder and get LocalService instance
-//            LocalBinder binder = (LocalBinder) service;
-//            mService = binder.getService();
-//            mBound = true;
-//        }
-//
-//        @Override
-//        public void onServiceDisconnected(ComponentName arg0) {
-//            mBound = false;
-//        }
-//    };
+    private ServiceConnection mConnection = new ServiceConnection()
+    {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+
+
 
 }
