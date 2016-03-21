@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
-
+import com.blstream.stairwaytoheaven.EratostenesSieve.ErastostenesSieve;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
