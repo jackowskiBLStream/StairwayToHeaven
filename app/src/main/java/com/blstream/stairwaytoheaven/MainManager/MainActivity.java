@@ -8,13 +8,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 
 import com.blstream.stairwaytoheaven.DetailFragment.TasksPreviewFragment;
+import com.blstream.stairwaytoheaven.Interfaces.IDialogHelper;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity  {
 
     /**
      * The number of pages (wizard steps) to show in this demo.
@@ -54,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
+
 
     /**
      * A simple pager adapter that represents 2 ScreenSlidePageFragment objects, in

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">StairwayToHeaven</string>
+    <string name="user_time">Podaj czas w sekundach</string>
 </resources>
