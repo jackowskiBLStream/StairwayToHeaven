@@ -19,10 +19,25 @@ import java.util.ArrayList;
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
  */
-public class TaskManagingService extends Service implements IAddingInterface,IcommunicatingProvider {
-    private Handler handler = new Handler();
+public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider, Runnable {
+    private class TaskContainer {
+        private Thread task;
+        private TimeHolder timeHolder;
+        private int taskId;
 
+        public TaskContainer(long durationTime, int taskId) {
+            this.timeHolder = new TimeHolder(durationTime);
+            this.task = new Thread(new Task(timeHolder));
+            this.taskId = taskId;
+        }
+
+    }
+
+    private static final int MAX_PARALLEL_TASKS_RUNNING = 4;
+    private Handler handler = new Handler();
+    private ArrayList<TaskContainer> taskQueue;
     private final IBinder mBinder = new LocalBinder();
+    private int executedCount;
 
     /**
      * adds new task to queue in Service
@@ -32,7 +47,7 @@ public class TaskManagingService extends Service implements IAddingInterface,Ico
      */
     @Override
     public void addTask(int taskId, long timeDuration) {
-
+        taskQueue.add(new TaskContainer(timeDuration, taskId));
     }
 
     /**
@@ -50,6 +65,14 @@ public class TaskManagingService extends Service implements IAddingInterface,Ico
     @Override
     public ArrayList<ITask> getAllTasksDetails() {
         return null;
+    }
+
+    /**
+     * @return current size of queue
+     */
+    @Override
+    public int getQueueSize() {
+        return taskQueue.size();
     }
 
     public class LocalBinder extends Binder {
@@ -81,6 +104,31 @@ public class TaskManagingService extends Service implements IAddingInterface,Ico
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        taskQueue = new ArrayList<>();
+        return mBinder;
+    }
+
+    @Override
+    public void run() {
+        while (true) {
+            for (TaskContainer task : taskQueue) {
+                if (executedCount < MAX_PARALLEL_TASKS_RUNNING && !task.task.isAlive()) {
+                    task.task.start();
+//                    taskPreviewFragment.returnAdapter().addItem(task.getId());
+
+                    executedCount++;
+                }
+                System.out.println("task " + task.taskId + " time: " + task.timeHolder.getElapsedTime());
+
+            }
+         //   removeFinished(taskQueue);
+
+//            taskPreviewFragment.returnAdapter().notifyDataSetChanged();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

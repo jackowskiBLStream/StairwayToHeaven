@@ -19,4 +19,10 @@ public interface IcommunicatingProvider {
      * @return list of all queued task ids
      */
     ArrayList<ITask> getAllTasksDetails();
+
+    /**
+     *
+     * @return current size of queue
+     */
+    int getQueueSize();
 }
