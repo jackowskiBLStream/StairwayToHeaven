@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
+ *
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider, Runnable {
     private class TaskContainer {
@@ -34,10 +34,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     }
 
     private static final int MAX_PARALLEL_TASKS_RUNNING = 4;
-    private Handler handler = new Handler();
     private ArrayList<TaskContainer> taskQueue;
     private final IBinder mBinder = new LocalBinder();
-    private int executedCount;
 
     /**
      * adds new task to queue in Service
@@ -116,6 +114,12 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     }
 
     private int getExecutedCount() {
+        int count=0;
         for (TaskContainer taskContainer : taskQueue) {
+            if(taskContainer.running){
+                count++;
+            }
+        }
+        return count;
     }
 }
