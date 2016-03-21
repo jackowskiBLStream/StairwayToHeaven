@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.blstream.stairwaytoheaven.Interfaces.ITask;
+import com.blstream.stairwaytoheaven.Interfaces.ITaskInformation;
 
 import org.junit.After;
 import org.junit.Before;
