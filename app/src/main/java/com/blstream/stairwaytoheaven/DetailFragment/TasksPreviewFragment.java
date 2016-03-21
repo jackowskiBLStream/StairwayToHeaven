@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,15 +16,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
+import com.blstream.stairwaytoheaven.Interfaces.ITask;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
+
+import java.util.ArrayList;
+
 
 public class TasksPreviewFragment extends Fragment {
 
     TasksPreviewListAdapter taskPreviewAdapter;
     TaskManagingService mService;
+    ArrayList<ITask> Tasks;
     private boolean mBound;
+    Handler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,35 +42,34 @@ public class TasksPreviewFragment extends Fragment {
         recyclerView.setAdapter(taskPreviewAdapter);
         return view;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         taskPreviewAdapter = new TasksPreviewListAdapter();
+        Intent intent  = new Intent(getContext(),TaskManagingService.class);
+        boolean isBinded = getContext().bindService(intent,mConnection,Context.BIND_ABOVE_CLIENT);
+        handler = new Handler();
+        boolean post = handler.post(new Runnable() {
+            @Override
+            public void run() {
 
-//        Intent intent  = new Intent(getContext(),)
-
-
-
+            }
+        });
     }
     private ServiceConnection mConnection = new ServiceConnection()
     {
-
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
             TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
             mService = binder.getService();
             mBound = true;
         }
-
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
             mBound = false;
         }
     };
-
 
 
 }
