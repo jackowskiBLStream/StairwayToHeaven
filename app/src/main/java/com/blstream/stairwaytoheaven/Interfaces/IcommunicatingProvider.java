@@ -1,5 +1,7 @@
 package com.blstream.stairwaytoheaven.Interfaces;
 
+import com.blstream.stairwaytoheaven.Service.TaskInformation;
+
 import java.util.ArrayList;
 
 /**
