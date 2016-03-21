@@ -50,14 +50,6 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         taskQueue.add(new TaskContainer(timeDuration, taskId));
     }
 
-    /**
-     * @param taskId id of task
-     * @return time elapsed to end of task with id given in parameter
-     */
-    @Override
-    public long getElapsedTime(int taskId) {
-        return 0;
-    }
 
     /**
      * @return list of all queued task ids
@@ -67,13 +59,6 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         return null;
     }
 
-    /**
-     * @return current size of queue
-     */
-    @Override
-    public int getQueueSize() {
-        return taskQueue.size();
-    }
 
     public class LocalBinder extends Binder {
         public TaskManagingService getService() {

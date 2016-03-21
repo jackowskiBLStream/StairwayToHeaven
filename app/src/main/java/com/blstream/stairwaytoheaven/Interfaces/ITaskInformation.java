@@ -1,9 +1,9 @@
 package com.blstream.stairwaytoheaven.Interfaces;
 
 
-public interface ITaskInformation {
+public interface TaskInformation {
 
-    String getTaskTitile();
+    int getTaskTitile();
 
     /**
      *
