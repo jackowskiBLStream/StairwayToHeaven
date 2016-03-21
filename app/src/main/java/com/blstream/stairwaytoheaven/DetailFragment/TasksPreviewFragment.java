@@ -31,15 +31,16 @@ public class TasksPreviewFragment extends Fragment {
     private boolean mBound;
     Handler handler;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.task_preview_list_layout, container, false);
         Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.allTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(taskPreviewAdapter);
+        Tasks = taskPreviewAdapter.getListOfTasks();
         return view;
     }
     @Override
@@ -47,14 +48,16 @@ public class TasksPreviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         taskPreviewAdapter = new TasksPreviewListAdapter();
         Intent intent  = new Intent(getContext(),TaskManagingService.class);
-        boolean isBinded = getContext().bindService(intent,mConnection,Context.BIND_ABOVE_CLIENT);
+        getContext().bindService(intent,mConnection,Context.BIND_ABOVE_CLIENT);
         handler = new Handler();
-        boolean post = handler.post(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
+        if(mBound){
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    updateTasksInList();
+                }
+            });
+        }
     }
     private ServiceConnection mConnection = new ServiceConnection()
     {
@@ -71,5 +74,9 @@ public class TasksPreviewFragment extends Fragment {
         }
     };
 
+    private void updateTasksInList(){
+        Tasks = mService.getAllTasksDetails();
+        taskPreviewAdapter.replaceListOfTasks(Tasks);
+    }
 
 }
