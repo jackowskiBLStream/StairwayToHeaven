@@ -15,7 +15,7 @@ public class TasksPreviewListAdapterTest {
     ArrayList<TaskInformation> Tasks;
     @Before
     public void setup(){
-        adapter = new TasksPreviewListAdapter();
+        adapter = new TasksPreviewListAdapter("Title");
         Tasks = new ArrayList<>();
     }
     @Test
@@ -31,8 +31,8 @@ public class TasksPreviewListAdapterTest {
     @Test
     public void shouldAddArrayToAdapter(){
         //given
-        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation("ABC", 5,0));
-        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation("ABCD", 6,1));
+        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation(10,1000,0));
+        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation(10,1000,1));
         Object[] arrayofTasks = Tasks.toArray();
         //when
         adapter.replaceListOfTasks(Tasks);

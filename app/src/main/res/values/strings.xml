@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">StairwayToHeaven</string>
     <string name="user_time">Podaj czas w sekundach</string>
+    <string name="task_title">Zadanie przewidziano na </string>
 </resources>

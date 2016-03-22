@@ -10,14 +10,15 @@ import android.widget.TextView;
 
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
-import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
 import java.util.ArrayList;
 
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
     ArrayList<TaskInformation> listOfTasks;
+    String title;
 
     public TasksPreviewListAdapter() {
+
         listOfTasks = new ArrayList<>();
     }
 
@@ -34,14 +35,18 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     public TasksPreviewListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.task_preview_element_layout, parent, false);
+
+        this.title = view.getContext().getString(R.string.task_title);
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
         if(listOfTasks.size() != 0) {
-            holder.mTitle.setText("Zadanie przewidziane na "+ this.listOfTasks.get(position).getTaskDuration());
-            holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
+            String titleWithDuration = this.title + " " + this.listOfTasks.get(position).getTaskDuration();;
+            holder.mTitle.setText(titleWithDuration);
+            holder.progressBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
         }
     }
 
@@ -57,7 +62,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mTitle;
-        public final ProgressBar progresBar;
+        public final ProgressBar progressBar;
 
         /**
          * Constructor where we set reference to layout of progressbar and TextView.
@@ -68,7 +73,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
             super(view);
             mView = view;
             mTitle = (TextView) view.findViewById(R.id.taskTitle);
-            progresBar = (ProgressBar) view.findViewById(R.id.taskProgressBar);
+            progressBar = (ProgressBar) view.findViewById(R.id.taskProgressBar);
         }
 
         /**

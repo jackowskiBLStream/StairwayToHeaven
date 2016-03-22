@@ -63,7 +63,7 @@ public class TasksPreviewFragment extends Fragment {
                                        IBinder service) {
             TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
             mService = binder.getService();
-            mStatusChecker.run();
+            handler.post(mStatusChecker);
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
@@ -75,7 +75,7 @@ public class TasksPreviewFragment extends Fragment {
         allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
-        Log.d("FRAGMENT UPDATE ADAPTER", "updateTasksInList: update");
+
     }
 
     @Override
