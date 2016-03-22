@@ -21,8 +21,10 @@ import java.util.List;
  * Created by Damian on 2016-03-21.
  */
 public class DialogFragment extends android.support.v4.app.DialogFragment {
+    public static final String VALIDATION_ERROR = "Blad walidacji!";
     public static final String USER_TIME = "Zdefiniuj wlasny czas...";
-    public static final String DIALOG_TITLE = "Podaj czas w sekundach";
+    public static final String SEKUND = "sekund";
+    public static final String DIALOG_TITLE = "Podaj czas w " + SEKUND + "ach";
     private static DialogFragment dialogFragment;
     private Button okButton;
     private EditText editTextNumbers;
@@ -92,8 +94,10 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 isValid = !(s.toString().isEmpty())
+                        && s.length() <= 9
                         && Integer.parseInt(s.toString()) > 0
                         && s.charAt(0) != '0';
+
 
             }
         });
@@ -101,12 +105,12 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
             @Override
             public void onClick(View v) {
                 if (isValid) {
-                    list.add(editTextNumbers.getText().toString() + " sekund");
+                    list.add(editTextNumbers.getText().toString() + " " + SEKUND);
                     updateData(list, dataAdapter);
                     time = Long.parseLong(editTextNumbers.getText().toString());
                     dismiss();
                 } else {
-                    Toast.makeText(getContext(), "Blad walidacji!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), VALIDATION_ERROR, Toast.LENGTH_SHORT).show();
                 }
 
 

@@ -1,6 +1,7 @@
 package com.blstream.stairwaytoheaven.StartScreen;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +44,16 @@ public class StartScreenFragment extends Fragment {
         return inflater.inflate(R.layout.start_screen_fragment_layout, container, false);
     }
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setRetainInstance(true);
         spinner = (Spinner) view.findViewById(R.id.spinner);
         startButton = (Button) view.findViewById(R.id.buttonStart);
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
+
         list = new ArrayList<>();
         list.add("10 sekund");
         list.add("15 sekund");
@@ -59,8 +63,10 @@ public class StartScreenFragment extends Fragment {
 
         dialogFragment = new DialogFragment();
 
+        /*dataAdapter = new ArrayAdapter<>
+                (getActivity(), android.R.layout.simple_spinner_item, list);*/
         dataAdapter = new ArrayAdapter<>
-                (getActivity(), android.R.layout.simple_spinner_item, list);
+                (getActivity(), R.layout.spinner_layout, list);
 
         dataAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
@@ -75,6 +81,8 @@ public class StartScreenFragment extends Fragment {
 
 
     }
+
+
 
     /**
      * Called when the fragment is visible to the user and actively running.
@@ -109,9 +117,8 @@ public class StartScreenFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == list.size() - 1) {
-                    FragmentManager fm;
-                    fm = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-                    dialogFragment.show(fm, DIALOG_TAG);
+
+                    dialogFragment.show(getFragmentManager(), DIALOG_TAG);
                     dialogFragment.setCancelable(false);
                     dialogFragment.setFragment(StartScreenFragment.this);
                     dialogFragment.setList(list);
