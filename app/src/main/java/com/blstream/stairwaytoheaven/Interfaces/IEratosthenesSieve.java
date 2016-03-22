@@ -1,11 +1,11 @@
 package com.blstream.stairwaytoheaven.Interfaces;
 
-/**
- * Created by blstream on 3/17/2016.
- */
+
+import java.util.ArrayList;
+
 public interface IEratosthenesSieve {
 
-    void start();
+    ArrayList<Integer> getPrimeNumbers();
 
-    void stop();
+
 }

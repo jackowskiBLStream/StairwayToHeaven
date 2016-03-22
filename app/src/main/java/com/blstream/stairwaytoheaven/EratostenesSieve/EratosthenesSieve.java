@@ -1,12 +1,14 @@
 package com.blstream.stairwaytoheaven.EratostenesSieve;
 
+import com.blstream.stairwaytoheaven.Interfaces.IEratosthenesSieve;
+
 import java.util.ArrayList;
 
 /**
  * Class handles finding primes by using the Eratosthenes Sieve Algorithm.
  * The list of candidates searched for primes is created on a basis of given last number.
  */
-public class EratosthenesSieve {
+public class EratosthenesSieve implements IEratosthenesSieve {
 
     private final static int START_VALUE = 2;
     private int lastNumber;
@@ -17,8 +19,7 @@ public class EratosthenesSieve {
         if (lastNumberToCheck >= START_VALUE) {
             candidatesForPrime = new ArrayList<>(lastNumberToCheck - 1);
             lastNumber = lastNumberToCheck;
-        }
-        else {
+        } else {
             candidatesForPrime = new ArrayList<>();
             primeNumbers = new ArrayList<>();
         }
@@ -26,6 +27,7 @@ public class EratosthenesSieve {
 
     /**
      * Method initialize the list of candidates for primes with values between constant START_VALUE and given lastNumber
+     *
      * @return candidatesForPrimes ArrayList<Integer> - initialized list of number candidates for primes
      */
     protected ArrayList<Integer> initialCandidatesForPrime() {
@@ -44,6 +46,7 @@ public class EratosthenesSieve {
      * Method searches for primes in list of candidates for primes
      * by using method findMultiplesFromCurrentNumber which finds multiples
      * generated from current candidate number. It removes in a loop found multiples from list of primes.
+     *
      * @return primeNumbers ArrayList<Integer> - list of found primes
      */
     protected ArrayList<Integer> findPrimeNumbers() {
@@ -56,6 +59,7 @@ public class EratosthenesSieve {
 
     /**
      * Method searches for multiples for current number from the list of candidates
+     *
      * @param candidateNumber int - current number from list of candidates for primes
      * @return multiplesFromCurrentNumber ArrayList<Integer> - list of found multiples from current number
      */
@@ -72,6 +76,7 @@ public class EratosthenesSieve {
 
     /**
      * Method checks if current multiple is a multiple of current number from the list of candidates.
+     *
      * @param candidateNumber int - current number from list of candidates for primes
      * @param currentMultiple int - current possible multiple of current number
      * @return isAMultipleFromCurrentNumber boolean - defines if a current multiple is a multiple
