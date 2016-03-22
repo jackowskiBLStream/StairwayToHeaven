@@ -1,6 +1,7 @@
 package com.blstream.stairwaytoheaven.DetailFragment;
 
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
             String titleWithDuration = this.title + " " + this.listOfTasks.get(position).getTaskDuration();;
             holder.mTitle.setText(titleWithDuration);
             holder.progressBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
+
         }
     }
 
