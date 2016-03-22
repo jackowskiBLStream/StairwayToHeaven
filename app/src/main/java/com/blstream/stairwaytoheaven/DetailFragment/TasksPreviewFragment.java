@@ -11,11 +11,9 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
@@ -24,7 +22,7 @@ import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 import java.util.ArrayList;
 
 /**
- * Class of implementation TaskPreviewFragment
+ * Implementation of TaskPreviewFragment
  */
 public class TasksPreviewFragment extends Fragment {
     /**
@@ -35,14 +33,23 @@ public class TasksPreviewFragment extends Fragment {
     TasksPreviewListAdapter taskPreviewAdapter;
     private static Handler handler = new Handler();
     TaskManagingService mService;
-    ArrayList<TaskInformation> allTasks;
     private Runnable mStatusChecker = new Runnable(){
         @Override
         public void run() {
             updateTasksInList();
-            handler.postDelayed(mStatusChecker, DELAYED_TIME_IN_MILLISECONDS);
+            handler.postDelayed(this, DELAYED_TIME_IN_MILLISECONDS);
         }
     };
+
+    /**
+     * Creating new instance of TaskPreviewAdapter
+     * @param savedInstanceState Bundle of savedInstanceState
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        taskPreviewAdapter = new TasksPreviewListAdapter(getContext());
+    }
 
     /**
      *Creates and returns the view hierarchy associated with the fragment.
@@ -57,22 +64,30 @@ public class TasksPreviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.task_preview_list_layout, container, false);
-        Context context = view.getContext();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.allTasks);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(taskPreviewAdapter);
-        allTasks = taskPreviewAdapter.getListOfTasks();
         return view;
     }
 
     /**
-     * Creating new instance of TaskPreviewAdapter
-     * @param savedInstanceState Bundle of savedInstanceState
+     * Unbind service;
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        taskPreviewAdapter = new TasksPreviewListAdapter();
+    public void onPause() {
+        getContext().unbindService(mConnection);
+        super.onPause();
+
+    }
+    /**
+     * Binding to service
+     */
+    @Override
+    public void onResume(){
+        super.onResume();
+        Intent intent  = new Intent(getContext(),TaskManagingService.class);
+        getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
+
     }
     private ServiceConnection mConnection = new ServiceConnection()
     {
@@ -85,35 +100,16 @@ public class TasksPreviewFragment extends Fragment {
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-           handler.removeCallbacks(mStatusChecker);
+            handler.removeCallbacks(mStatusChecker);
         }
     };
+
     /**
      * Methods used to update all tasks in list in Adapter.
      */
     private void updateTasksInList(){
-        allTasks = mService.getAllTasksDetails();
+        ArrayList<TaskInformation> allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * Unbind service;
-     */
-    @Override
-    public void onPause() {
-        super.onPause();
-        getContext().unbindService(mConnection);
-    }
-
-    /**
-     * Binding to service
-     */
-    @Override
-    public void onResume(){
-        super.onStart();
-        Intent intent  = new Intent(getContext(),TaskManagingService.class);
-        getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
-        Log.d("FRAGMENT BOUND", "onCreate: bound");
     }
 }
