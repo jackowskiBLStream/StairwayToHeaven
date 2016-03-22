@@ -123,7 +123,7 @@ public class EratosthenesSieveTest {
         EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
         eratosthenesSieve.initialCandidatesForPrime();
         // then
-        assertEquals(expectedPrimes, eratosthenesSieve.getPrimeNumbers());
+        assertEquals(expectedPrimes, eratosthenesSieve.findPrimeNumbers());
     }
 
     @Test
@@ -136,7 +136,7 @@ public class EratosthenesSieveTest {
         EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
         eratosthenesSieve.initialCandidatesForPrime();
         // then
-        assertEquals(expectedPrimes, eratosthenesSieve.getPrimeNumbers());
+        assertEquals(expectedPrimes, eratosthenesSieve.findPrimeNumbers());
     }
 
     @Test
@@ -157,19 +157,30 @@ public class EratosthenesSieveTest {
         EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
         eratosthenesSieve.initialCandidatesForPrime();
         // then
-        assertEquals(expectedPrimes, eratosthenesSieve.getPrimeNumbers());
+        assertEquals(expectedPrimes, eratosthenesSieve.findPrimeNumbers());
     }
 
     @Test
     public void testLastNumberOneGetPrimeNumbers() {
         // given
         int lastNumber = 1;
-        List<Integer> expectedPrimes = null;
         // when
         EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
         eratosthenesSieve.initialCandidatesForPrime();
         // then
-        assertEquals(expectedPrimes, eratosthenesSieve.getPrimeNumbers());
+        assertEquals(new ArrayList<>().size(), eratosthenesSieve.findPrimeNumbers().size());
+
+    }
+
+    @Test
+    public void testLastNumberMinIntegerFindPrimeNumbers() {
+        // given
+        int lastNumber = Integer.MIN_VALUE;
+        // when
+        EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
+        eratosthenesSieve.initialCandidatesForPrime();
+        // then
+        assertEquals(new ArrayList<>().size(), eratosthenesSieve.findPrimeNumbers().size());
 
     }
 }

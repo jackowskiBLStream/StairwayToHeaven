@@ -5,18 +5,24 @@ import java.util.ArrayList;
 public class EratosthenesSieve {
 
     private final static int START_VALUE = 2;
-    private static int lastNumber;
+    private int lastNumber;
     private ArrayList<Integer> candidatesForPrime;
     private ArrayList<Integer> primeNumbers;
 
     public EratosthenesSieve(int lastNumberToCheck) {
-        candidatesForPrime = new ArrayList<>(lastNumberToCheck - 1);
-        lastNumber = lastNumberToCheck;
+        if (lastNumberToCheck >= START_VALUE) {
+            candidatesForPrime = new ArrayList<>(lastNumberToCheck - 1);
+            lastNumber = lastNumberToCheck;
+        }
+        else {
+            candidatesForPrime = new ArrayList<>();
+            primeNumbers = new ArrayList<>();
+        }
     }
 
     protected ArrayList<Integer> initialCandidatesForPrime() {
         if (lastNumber < START_VALUE) {
-            return null;
+            return candidatesForPrime;
         }
         for (int i = START_VALUE; i <= lastNumber; i++) {
             candidatesForPrime.add(i);
@@ -25,16 +31,16 @@ public class EratosthenesSieve {
         return candidatesForPrime;
     }
 
-    protected ArrayList<Integer> getPrimeNumbers() {
+    protected ArrayList<Integer> findPrimeNumbers() {
         for (Integer currentNumber : candidatesForPrime) {
-            ArrayList nonPrimeMultiplesFromCurrentNumber = findMultiplesFromCurrentNumber(currentNumber);
+            ArrayList<Integer> nonPrimeMultiplesFromCurrentNumber = findMultiplesFromCurrentNumber(currentNumber);
             primeNumbers.removeAll(nonPrimeMultiplesFromCurrentNumber);
         }
         return primeNumbers;
     }
 
     protected ArrayList<Integer> findMultiplesFromCurrentNumber(int numberToCheck) {
-        ArrayList<Integer> nonPrimeMultiplesFromCurrentNumber = new ArrayList<Integer>();
+        ArrayList<Integer> nonPrimeMultiplesFromCurrentNumber = new ArrayList<>();
         for (int multiplier = 1, currentMultiple; (currentMultiple = multiplier * numberToCheck) <= lastNumber; multiplier++) {
             boolean isMultipleAPrime = isMultiplePossiblyAPrime(numberToCheck, currentMultiple);
             if (!isMultipleAPrime) {
@@ -50,5 +56,11 @@ public class EratosthenesSieve {
             isAPrime = false;
         }
         return isAPrime;
+    }
+
+    public ArrayList<Integer> getPrimeNumbers() {
+        initialCandidatesForPrime();
+        findPrimeNumbers();
+        return primeNumbers;
     }
 }
