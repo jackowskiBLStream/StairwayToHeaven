@@ -1,6 +1,8 @@
 package com.blstream.stairwaytoheaven.Interfaces;
 
-
+/**
+ * interface to be implemented in TaskInformation class
+ */
 public interface ITaskInformation {
 
 

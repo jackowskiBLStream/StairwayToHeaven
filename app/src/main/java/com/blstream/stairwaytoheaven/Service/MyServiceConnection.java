@@ -39,7 +39,7 @@ public class MyServiceConnection implements ServiceConnection {
      * binding to the service will remain active, and you will receive a call
      * to {@link #onServiceConnected} when the Service is next running.
      *
-     * @param The concrete component name of the service whose
+     * @param arg0 concrete component name of the service whose
      *            connection has been lost.
      */
     @Override

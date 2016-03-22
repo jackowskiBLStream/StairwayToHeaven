@@ -68,8 +68,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         ArrayList<TaskInformation> list = new ArrayList<>();
         for (TaskContainer container : taskQueue) {
             list.add(new TaskInformation(container.timeHolder.getDuration(),
-                    calculateProgress(container.timeHolder),
-                    container.taskId));
+                    calculateProgress(container.timeHolder)));
         }
         return list;
     }
