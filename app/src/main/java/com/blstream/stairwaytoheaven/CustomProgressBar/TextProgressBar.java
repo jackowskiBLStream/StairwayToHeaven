@@ -18,7 +18,9 @@ public class TextProgressBar extends ProgressBar {
     Rect bounds = new Rect();
     private static final int TEXT_COLOR_DEFAULT = Color.BLACK;
 
-
+    /**
+     * Constructor
+     */
     public TextProgressBar(Context context) {
         super(context);
         text = "";
@@ -27,6 +29,9 @@ public class TextProgressBar extends ProgressBar {
         setProgressDrawable(ContextCompat.getDrawable(context,R.drawable.custom_progress_bar));
 
     }
+    /**
+     * Constructor
+     */
     public TextProgressBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         text = "";
@@ -34,7 +39,9 @@ public class TextProgressBar extends ProgressBar {
         textPaint.setColor(TEXT_COLOR_DEFAULT);
         setProgressDrawable(ContextCompat.getDrawable(context, R.drawable.custom_progress_bar));
     }
-
+    /**
+     * Constructor
+     */
     public TextProgressBar(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         text = "";
@@ -43,6 +50,10 @@ public class TextProgressBar extends ProgressBar {
         setProgressDrawable(ContextCompat.getDrawable(context, R.drawable.custom_progress_bar));
     }
 
+    /**
+     * Method draw text on ProgressBar
+     * @param canvas instance of Canvas
+     */
     @Override
     protected synchronized void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -53,13 +64,12 @@ public class TextProgressBar extends ProgressBar {
         canvas.drawText(text, x, y, textPaint);
     }
 
+    /**
+     * Method set Text which is written on progress bar
+     * @param text text as string.
+     */
     public synchronized void setText(String text) {
         this.text = text;
-        drawableStateChanged();
-    }
-
-    public void setTextColor(int color) {
-        textPaint.setColor(color);
         drawableStateChanged();
     }
 }
