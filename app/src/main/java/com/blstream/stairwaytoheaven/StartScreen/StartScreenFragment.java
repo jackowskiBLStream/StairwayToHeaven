@@ -99,7 +99,7 @@ public class StartScreenFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (myServiceConnection.ismBound()) {
+        if (myServiceConnection.isBound()) {
             getContext().unbindService(myServiceConnection);
         }
     }
@@ -141,7 +141,7 @@ public class StartScreenFragment extends Fragment {
                 if (dialogFragment != null && dialogFragment.getTime() > 0) {
                     time = dialogFragment.getTime();
                 }
-                myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
+                myServiceConnection.getService().addTask(taskIdGenerator, time * 1000);
                 taskIdGenerator++;
             }
 

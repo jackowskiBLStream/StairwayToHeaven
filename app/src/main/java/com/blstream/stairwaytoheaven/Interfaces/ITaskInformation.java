@@ -3,8 +3,11 @@ package com.blstream.stairwaytoheaven.Interfaces;
 
 public interface ITaskInformation {
 
-    int getTaskId();
 
+    /**
+     *
+     * @return task duration in milis
+     */
     long getTaskDuration();
 
     /**

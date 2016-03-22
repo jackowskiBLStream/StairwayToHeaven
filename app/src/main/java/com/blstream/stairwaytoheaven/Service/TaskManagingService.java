@@ -21,6 +21,12 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider {
 
+    /**
+     * class that contains Task and some information about it:
+     * taskId - id od task
+     * timeHolder - Class that contains information about task duration and elapsed time
+     * task - task thread that will be executed
+     */
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
@@ -55,7 +61,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
 
 
     /**
-     * @return list of all queued task ids
+     * @return list with information of all tasks in queue
      */
     @Override
     public ArrayList<TaskInformation> getAllTasksDetails() {
