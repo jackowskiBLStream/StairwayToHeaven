@@ -1,10 +1,15 @@
 package com.blstream.stairwaytoheaven.Interfaces;
 
-
+/**
+ * interface to be implemented in TaskInformation class
+ */
 public interface ITaskInformation {
 
-    int getTaskId();
 
+    /**
+     *
+     * @return task duration in milis
+     */
     long getTaskDuration();
 
     /**

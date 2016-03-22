@@ -21,16 +21,20 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider {
 
+    /**
+     * class that contains Task and some information about it:
+     * taskId - id od task
+     * timeHolder - Class that contains information about task duration and elapsed time
+     * task - task thread that will be executed
+     */
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
-        private int taskId;
 
 
-        public TaskContainer(long durationTime, int taskId) {
+        public TaskContainer(long durationTime) {
             this.timeHolder = new TimeHolder(durationTime);
             this.task = new Thread(new Task(timeHolder));
-            this.taskId = taskId;
         }
 
     }
@@ -48,22 +52,21 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      */
     @Override
     public void addTask(int taskId, long timeDuration) {
-        TaskContainer taskContainer =new TaskContainer(timeDuration, taskId);
+        TaskContainer taskContainer = new TaskContainer(timeDuration);
         taskQueue.add(taskContainer);
         executor.execute(taskContainer.task);
     }
 
 
     /**
-     * @return list of all queued task ids
+     * @return list with information of all tasks in queue
      */
     @Override
     public ArrayList<TaskInformation> getAllTasksDetails() {
         ArrayList<TaskInformation> list = new ArrayList<>();
         for (TaskContainer container : taskQueue) {
             list.add(new TaskInformation(container.timeHolder.getDuration(),
-                    calculateProgress(container.timeHolder),
-                    container.taskId));
+                    calculateProgress(container.timeHolder)));
         }
         return list;
     }
