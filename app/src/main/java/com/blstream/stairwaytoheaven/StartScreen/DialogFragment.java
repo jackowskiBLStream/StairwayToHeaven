@@ -48,6 +48,10 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         return time;
     }
 
+    public void setTime(long time) {
+        this.time = time;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.dialog_fragment_layout, container, false);
