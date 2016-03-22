@@ -1,12 +1,14 @@
 package com.blstream.stairwaytoheaven.EratostenesSieve;
 
+import com.blstream.stairwaytoheaven.Interfaces.IEratosthenesSieve;
+
 import java.util.ArrayList;
 
 /**
  * Class handles finding primes by using the Eratosthenes Sieve Algorithm.
  * The list of candidates searched for primes is created on a basis of given last number.
  */
-public class EratosthenesSieve {
+public class EratosthenesSieve implements IEratosthenesSieve {
 
     private final static int START_VALUE = 2;
     private int lastNumber;
