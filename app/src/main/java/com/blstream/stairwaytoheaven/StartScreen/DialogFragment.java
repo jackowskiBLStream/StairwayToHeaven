@@ -109,6 +109,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
                     Toast.makeText(getContext(), "Blad walidacji!", Toast.LENGTH_SHORT).show();
                 }
 
+
             }
         });
     }
