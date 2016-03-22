@@ -72,13 +72,4 @@ public class TextProgressBar extends ProgressBar {
         this.text = text;
         drawableStateChanged();
     }
-
-    /**
-     * Method change color of text which is written on progress bar
-     * @param color color as integer.
-     */
-    public void setTextColor(int color) {
-        textPaint.setColor(color);
-        drawableStateChanged();
-    }
 }
