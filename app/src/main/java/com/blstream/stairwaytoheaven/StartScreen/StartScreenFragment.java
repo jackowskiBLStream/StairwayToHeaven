@@ -65,10 +65,10 @@ public class StartScreenFragment extends Fragment {
 
         dialogFragment = new DialogFragment();
 
-        /*dataAdapter = new ArrayAdapter<>
-                (getActivity(), android.R.layout.simple_spinner_item, list);*/
         dataAdapter = new ArrayAdapter<>
-                (getActivity(), R.layout.spinner_layout, list);
+                (getActivity(), android.R.layout.simple_spinner_item, list);
+      /*  dataAdapter = new ArrayAdapter<>
+                (getActivity(), R.layout.spinner_layout, list);*/
 
         dataAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
