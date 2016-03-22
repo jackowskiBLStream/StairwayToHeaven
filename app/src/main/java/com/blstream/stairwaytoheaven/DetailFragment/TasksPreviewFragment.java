@@ -22,10 +22,6 @@ import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
 
 public class TasksPreviewFragment extends Fragment {
 
@@ -35,7 +31,6 @@ public class TasksPreviewFragment extends Fragment {
     private static Handler handler = new Handler();
     TaskManagingService mService;
     ArrayList<TaskInformation> allTasks;
-    ExecutorService threadPoolExecutor  = Executors.newSingleThreadExecutor();
     private Runnable mStatusChecker = new Runnable(){
         @Override
         public void run() {
@@ -43,7 +38,6 @@ public class TasksPreviewFragment extends Fragment {
             handler.postDelayed(mStatusChecker, DELAYED_TIME_IN_MILLISECONDS);
         }
     };
-    Future longRunningTaskFuture = threadPoolExecutor.submit(mStatusChecker);
 
 
     @Override
@@ -73,7 +67,7 @@ public class TasksPreviewFragment extends Fragment {
         }
         @Override
         public void onServiceDisconnected(ComponentName arg0) {
-            longRunningTaskFuture.cancel(true);
+           handler.removeCallbacks(mStatusChecker);
         }
     };
 
@@ -81,7 +75,6 @@ public class TasksPreviewFragment extends Fragment {
         allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
-        Log.d("FRAGMENT UPDATE ADAPTER", "updateTasksInList: update");
     }
 
     @Override
@@ -97,5 +90,4 @@ public class TasksPreviewFragment extends Fragment {
         getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
         Log.d("FRAGMENT BOUND", "onCreate: bound");
     }
-
 }

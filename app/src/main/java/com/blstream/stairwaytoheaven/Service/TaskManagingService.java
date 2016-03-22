@@ -48,9 +48,9 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      */
     @Override
     public void addTask(int taskId, long timeDuration) {
-        TaskContainer task =new TaskContainer(timeDuration, taskId);
-        taskQueue.add(task);
-        executor.execute(task.task);
+        TaskContainer taskContainer =new TaskContainer(timeDuration, taskId);
+        taskQueue.add(taskContainer);
+        executor.execute(taskContainer.task);
     }
 
 
