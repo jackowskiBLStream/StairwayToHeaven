@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import com.blstream.stairwaytoheaven.R;
@@ -48,7 +49,8 @@ public class StartScreenFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setRetainInstance(true);
+
+
         spinner = (Spinner) view.findViewById(R.id.spinner);
         startButton = (Button) view.findViewById(R.id.buttonStart);
 
