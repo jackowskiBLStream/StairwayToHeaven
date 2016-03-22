@@ -44,7 +44,15 @@ public class TasksPreviewFragment extends Fragment {
         }
     };
 
-
+    /**
+     *Creates and returns the view hierarchy associated with the fragment.
+     * @param inflater The LayoutInflater object that can be used to inflate any views in the fragment,
+     * @param container  If non-null, this is the parent view that the fragment's UI should be attached to.
+     *                   The fragment should not add the view itself,
+     *                   but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState  If non-null, this fragment is being re-constructed from a previous saved state as given here.
+     * @return Return the View for the fragment's UI, or null.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,6 +64,11 @@ public class TasksPreviewFragment extends Fragment {
         allTasks = taskPreviewAdapter.getListOfTasks();
         return view;
     }
+
+    /**
+     * Creating new instance of TaskPreviewAdapter
+     * @param savedInstanceState Bundle of savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,12 +97,18 @@ public class TasksPreviewFragment extends Fragment {
         taskPreviewAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Unbind service;
+     */
     @Override
     public void onPause() {
         super.onPause();
         getContext().unbindService(mConnection);
     }
 
+    /**
+     * Binding to service
+     */
     @Override
     public void onResume(){
         super.onStart();
