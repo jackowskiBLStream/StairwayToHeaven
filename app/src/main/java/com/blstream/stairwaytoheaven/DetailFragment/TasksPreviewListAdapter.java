@@ -1,6 +1,7 @@
 package com.blstream.stairwaytoheaven.DetailFragment;
 
 
+import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,8 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
         if(listOfTasks.size() != 0) {
-            holder.mTitle.setText("Zadanie przewidziane na "+ this.listOfTasks.get(position).getTaskDuration());
+            //FIXME resource from strings.xml
+            holder.mTitle.setText(String.format("Zadanie przewidziane na %d sekund",listOfTasks.get(position).getTaskDuration()/1000));
             holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
         }
     }

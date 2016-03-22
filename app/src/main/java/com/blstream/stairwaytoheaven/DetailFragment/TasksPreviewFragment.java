@@ -81,7 +81,6 @@ public class TasksPreviewFragment extends Fragment {
         allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);
         taskPreviewAdapter.notifyDataSetChanged();
-        Log.d("FRAGMENT UPDATE ADAPTER", "updateTasksInList: update");
     }
 
     @Override
