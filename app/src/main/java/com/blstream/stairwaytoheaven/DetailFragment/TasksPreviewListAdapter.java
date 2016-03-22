@@ -1,14 +1,13 @@
 package com.blstream.stairwaytoheaven.DetailFragment;
 
 
-import android.content.res.Resources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blstream.stairwaytoheaven.CustomProgressBar.TextProgressBar;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
     ArrayList<TaskInformation> listOfTasks;
     String title;
-
+    View view;
     public TasksPreviewListAdapter() {
 
         listOfTasks = new ArrayList<>();
@@ -34,7 +33,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
 
     @Override
     public TasksPreviewListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        this.view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.task_preview_element_layout, parent, false);
 
         this.title = view.getContext().getString(R.string.task_title);
@@ -45,10 +44,17 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
         if(listOfTasks.size() != 0) {
-            String titleWithDuration = this.title + " " + this.listOfTasks.get(position).getTaskDuration();;
-            holder.mTitle.setText(titleWithDuration);
-            holder.progressBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
 
+            long seconds =  (this.listOfTasks.get(position).getTaskDuration() / 1000);
+            int progress = this.listOfTasks.get(position).getTaskProgress();
+            String titleWithDuration = view.getContext()
+                    .getString(R.string.task_title,seconds);
+            String progressInPercent = view.getContext()
+                    .getString(R.string.progressInPercent,progress);
+
+            holder.mTitle.setText(titleWithDuration);
+            holder.progressBar.setProgress(progress);
+            holder.progressBar.setText(progressInPercent);
         }
     }
 
@@ -64,7 +70,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mTitle;
-        public final ProgressBar progressBar;
+        public final TextProgressBar progressBar;
 
         /**
          * Constructor where we set reference to layout of progressbar and TextView.
@@ -75,7 +81,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
             super(view);
             mView = view;
             mTitle = (TextView) view.findViewById(R.id.taskTitle);
-            progressBar = (ProgressBar) view.findViewById(R.id.taskProgressBar);
+            progressBar = (TextProgressBar) view.findViewById(R.id.taskProgressBar);
         }
 
         /**
