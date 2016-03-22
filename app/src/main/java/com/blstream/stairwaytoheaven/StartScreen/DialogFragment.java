@@ -23,6 +23,7 @@ import java.util.List;
 public class DialogFragment extends android.support.v4.app.DialogFragment {
     public static final String USER_TIME = "Zdefiniuj wlasny czas...";
     public static final String DIALOG_TITLE = "Podaj czas w sekundach";
+    private static DialogFragment dialogFragment;
     private Button okButton;
     private EditText editTextNumbers;
     private Fragment fragment;
@@ -31,6 +32,14 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
     private boolean isValid;
     private long time;
 
+
+    public static DialogFragment getInstance() {
+        if (dialogFragment == null) {
+            dialogFragment = new DialogFragment();
+
+        }
+        return dialogFragment;
+    }
 
     public void setFragment(Fragment fragment) {
         this.fragment = fragment;
@@ -50,6 +59,11 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

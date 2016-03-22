@@ -1,6 +1,7 @@
 package com.blstream.stairwaytoheaven.StartScreen;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,8 @@ import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +29,7 @@ import java.util.List;
  */
 public class StartScreenFragment extends Fragment {
     public static final String USER_TIME = "Zdefiniuj wlasny czas...";
-    public static final String DIALOG_TAG = "Define time Dialog Fragment";
+    public static final String DIALOG_TAG = "DIALOG";
     int taskIdGenerator;
     private Spinner spinner;
     private Button startButton;
@@ -34,7 +37,9 @@ public class StartScreenFragment extends Fragment {
     private List<String> list;
     private MyServiceConnection myServiceConnection;
     private long time;
-    private DialogFragment dialogFragment;
+    private DialogFragment dialogFragment = null;
+    private boolean isSelected;
+    private FragmentManager fm;
 
     @Nullable
     @Override
@@ -48,27 +53,53 @@ public class StartScreenFragment extends Fragment {
 
         spinner = (Spinner) view.findViewById(R.id.spinner);
         startButton = (Button) view.findViewById(R.id.buttonStart);
-
         spinner = (Spinner) view.findViewById(R.id.spinner);
-        list = new ArrayList<>();
+        isSelected = false;
+        list = new ArrayList<>();//TODO: from resources
         list.add("10 sekund");
         list.add("15 sekund");
         list.add("20 sekund");
         list.add("25 sekund");
         list.add(USER_TIME);
 
-        dialogFragment = new DialogFragment();
 
+
+        if(savedInstanceState != null){
+            list = new ArrayList<>(savedInstanceState.getStringArrayList("list"));
+        }
         dataAdapter = new ArrayAdapter<>
                 (getActivity(), android.R.layout.simple_spinner_item, list);
 
         dataAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
 
+
+       /* if (savedInstanceState == null) {
+            // Spinner item selection Listener
+            addListenerOnSpinnerItemSelection();
+        }else{
+            dialogFragment.dismiss();
+
+        }*/
         spinner.setAdapter(dataAdapter);
 
-        // Spinner item selection Listener
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+
+            // Get private mPopup member variable and try cast to ListPopupWindow
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+
+            // Set popupWindow height to 500px
+            popupWindow.setHeight(50);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+            // silently fail...
+        }
+
+        dialogFragment = new DialogFragment();
         addListenerOnSpinnerItemSelection();
+
 
         // Button click Listener
         addListenerOnButton();
@@ -104,23 +135,31 @@ public class StartScreenFragment extends Fragment {
         }
     }
 
+
     private void addListenerOnSpinnerItemSelection() {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == list.size() - 1) {
-                    FragmentManager fm;
-                    fm = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                    //fm = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                    fm = getFragmentManager();
+
+                    if(dialogFragment.isAdded()) {
+                        fm.beginTransaction().remove(dialogFragment).commit();
+                    }
+
+
                     dialogFragment.show(fm, DIALOG_TAG);
                     dialogFragment.setCancelable(false);
                     dialogFragment.setFragment(StartScreenFragment.this);
                     dialogFragment.setList(list);
                     dialogFragment.setDataAdapter(dataAdapter);
+
                 } else {
                     String[] parts = ((String) parent.getItemAtPosition(position)).split(" ");
                     time = Long.parseLong(parts[0]);
-                    dialogFragment.setTime(0);
                 }
+                isSelected = true;
 
             }
 
@@ -129,8 +168,23 @@ public class StartScreenFragment extends Fragment {
 
             }
         });
+
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putStringArrayList("list", (ArrayList<String>) list);
+
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+       /* MANIFEST
+        android:configChanges="keyboardHidden|orientation|screenSize"
+        android:screenOrientation="fullSensor"*/
+    }
 
     private void addListenerOnButton() {
 
@@ -140,9 +194,15 @@ public class StartScreenFragment extends Fragment {
             public void onClick(View v) {
                 if (dialogFragment != null && dialogFragment.getTime() > 0) {
                     time = dialogFragment.getTime();
+                    myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
+                    taskIdGenerator++;
+                    dialogFragment.setTime(0);
+                } else {
+                    myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
+                    taskIdGenerator++;
                 }
-                myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
-                taskIdGenerator++;
+
+
             }
 
         });
