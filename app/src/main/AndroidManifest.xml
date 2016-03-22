@@ -11,6 +11,7 @@
         <service android:name=".Service.TaskManagingService" />
         <activity android:name=".MainManager.MainActivity"
             android:configChanges="keyboardHidden|orientation"
+
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
