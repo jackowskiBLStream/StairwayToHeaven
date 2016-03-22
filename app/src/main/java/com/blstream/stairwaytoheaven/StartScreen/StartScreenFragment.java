@@ -157,7 +157,6 @@ public class StartScreenFragment extends Fragment {
                     taskIdGenerator++;
                 }
 
-
             }
 
         });
