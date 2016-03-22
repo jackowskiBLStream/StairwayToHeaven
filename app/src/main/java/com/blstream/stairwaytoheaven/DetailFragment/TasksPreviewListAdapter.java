@@ -13,24 +13,45 @@ import com.blstream.stairwaytoheaven.R;
 
 import java.util.ArrayList;
 
+/**
+ * Class implementation of TaskPreview adapter.
+ */
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
     ArrayList<TaskInformation> listOfTasks;
     String title;
     View view;
+
+    /**
+     * Constructor where we initialize ArrayList of tasks;
+     */
     public TasksPreviewListAdapter() {
 
         listOfTasks = new ArrayList<>();
     }
 
+    /**
+     * Method to get all task on list;
+     * @return ArrayList of tasks.
+     */
     public ArrayList<TaskInformation> getListOfTasks(){
         return listOfTasks;
     }
 
+    /**
+     * Method to replace ArrayList of Tasks.
+     * @param list ArrayList of Tasks.
+     */
     public void replaceListOfTasks(ArrayList<TaskInformation> list)
     {
         this.listOfTasks = list;
     }
 
+    /**
+     * This method calls onCreateViewHolder(ViewGroup, int) to create a new RecyclerView.ViewHolder
+     * and initializes some private fields to be used by RecyclerView.
+     *
+     * @return instance of ViewHolder;
+     */
     @Override
     public TasksPreviewListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.view = LayoutInflater.from(parent.getContext())
@@ -41,6 +62,12 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
         return new ViewHolder(view);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position.
+     * This method should update the contents of TextView and ProgressBar.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
         if(listOfTasks.size() != 0) {
@@ -48,9 +75,9 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
             long seconds =  (this.listOfTasks.get(position).getTaskDuration() / 1000);
             int progress = this.listOfTasks.get(position).getTaskProgress();
             String titleWithDuration = view.getContext()
-                    .getString(R.string.task_title,seconds);
+                    .getString(R.string.task_title, seconds);
             String progressInPercent = view.getContext()
-                    .getString(R.string.progressInPercent,progress);
+                    .getString(R.string.progressInPercent, Integer.toString(progress));
 
             holder.mTitle.setText(titleWithDuration);
             holder.progressBar.setProgress(progress);
@@ -58,6 +85,10 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
         }
     }
 
+    /**
+     *
+     * @return number of Tasks in List.
+     */
     @Override
     public int getItemCount() {
         return this.listOfTasks.size();
