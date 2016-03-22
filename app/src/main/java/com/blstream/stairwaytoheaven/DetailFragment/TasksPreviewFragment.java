@@ -23,8 +23,13 @@ import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
 import java.util.ArrayList;
 
+/**
+ * Class of implementation TaskPreviewFragment
+ */
 public class TasksPreviewFragment extends Fragment {
-
+    /**
+     * Delay of handler.postDelay(value)
+     */
     private static final int DELAYED_TIME_IN_MILLISECONDS = 500;
 
     TasksPreviewListAdapter taskPreviewAdapter;
@@ -70,7 +75,9 @@ public class TasksPreviewFragment extends Fragment {
            handler.removeCallbacks(mStatusChecker);
         }
     };
-
+    /**
+     * Methods used to update all tasks in list in Adapter.
+     */
     private void updateTasksInList(){
         allTasks = mService.getAllTasksDetails();
         taskPreviewAdapter.replaceListOfTasks(allTasks);

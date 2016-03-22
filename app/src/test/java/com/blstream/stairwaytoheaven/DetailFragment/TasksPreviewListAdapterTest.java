@@ -15,7 +15,7 @@ public class TasksPreviewListAdapterTest {
     ArrayList<TaskInformation> Tasks;
     @Before
     public void setup(){
-        adapter = new TasksPreviewListAdapter("Title");
+        adapter = new TasksPreviewListAdapter();
         Tasks = new ArrayList<>();
     }
     @Test
