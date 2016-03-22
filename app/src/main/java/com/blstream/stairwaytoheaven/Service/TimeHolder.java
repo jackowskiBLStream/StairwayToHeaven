@@ -2,7 +2,7 @@ package com.blstream.stairwaytoheaven.Service;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
- * class to hold and synchronize elapsed time
+ * class to hold and synchronize Task time
  */
 public class TimeHolder {
     private long elapsedTime;

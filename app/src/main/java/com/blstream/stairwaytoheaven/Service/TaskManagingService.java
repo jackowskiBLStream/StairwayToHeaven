@@ -30,13 +30,11 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
-        private int taskId;
 
 
-        public TaskContainer(long durationTime, int taskId) {
+        public TaskContainer(long durationTime) {
             this.timeHolder = new TimeHolder(durationTime);
             this.task = new Thread(new Task(timeHolder));
-            this.taskId = taskId;
         }
 
     }
@@ -54,7 +52,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      */
     @Override
     public void addTask(int taskId, long timeDuration) {
-        TaskContainer taskContainer =new TaskContainer(timeDuration, taskId);
+        TaskContainer taskContainer = new TaskContainer(timeDuration);
         taskQueue.add(taskContainer);
         executor.execute(taskContainer.task);
     }
@@ -67,9 +65,8 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     public ArrayList<TaskInformation> getAllTasksDetails() {
         ArrayList<TaskInformation> list = new ArrayList<>();
         for (TaskContainer container : taskQueue) {
-//            list.add(new TaskInformation(container.timeHolder.getDuration(),
-//                    calculateProgress(container.timeHolder),
-//                    container.taskId));
+            list.add(new TaskInformation(container.timeHolder.getDuration(),
+                    calculateProgress(container.timeHolder)));
         }
         return list;
     }

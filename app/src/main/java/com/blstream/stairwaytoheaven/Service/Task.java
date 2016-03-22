@@ -5,8 +5,10 @@ package com.blstream.stairwaytoheaven.Service;
  *
  */
 public class Task implements Runnable {
-    static final long updateInterval = 500;
+    static final long UPDATE_INTERVAL = 500;
     private TimeHolder timeHolder;
+    private long expectedElapsedTime;
+    private long now;
 
     public Task(TimeHolder timeHolder) {
         this.timeHolder=timeHolder;
@@ -19,13 +21,15 @@ public class Task implements Runnable {
      */
     @Override
     public void run() {
+        now = System.currentTimeMillis();
+        expectedElapsedTime = now + UPDATE_INTERVAL;
         while (timeHolder.getElapsedTime() < timeHolder.getDuration()) {
-            try { //FIXME kick out sleep
-                Thread.sleep(updateInterval);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            long now = System.currentTimeMillis();
+            while(now < expectedElapsedTime){
+                now = System.currentTimeMillis();
             }
-            timeHolder.setElapsedTime(timeHolder.getElapsedTime() + updateInterval);
+            expectedElapsedTime = now + UPDATE_INTERVAL;
+            timeHolder.setElapsedTime(timeHolder.getElapsedTime() + UPDATE_INTERVAL);
         }
     }
 
