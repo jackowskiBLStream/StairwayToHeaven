@@ -5,11 +5,11 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 /**
- * Created by Patryk Gwiazdowski on 21.03.2016.
+ * Class for monitoring state of service
  */
 public class MyServiceConnection implements ServiceConnection {
-    private TaskManagingService mService;
-    private boolean mBound = false;
+    private TaskManagingService service;
+    private boolean bound = false;
 
     public MyServiceConnection() {
     }
@@ -28,8 +28,8 @@ public class MyServiceConnection implements ServiceConnection {
                                    IBinder service) {
 
         TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
-        mService = binder.getService();
-        mBound = true;
+        this.service = binder.getService();
+        bound = true;
     }
 
     /**
@@ -39,29 +39,35 @@ public class MyServiceConnection implements ServiceConnection {
      * binding to the service will remain active, and you will receive a call
      * to {@link #onServiceConnected} when the Service is next running.
      *
-     * @param The concrete component name of the service whose
+     * @param arg0 concrete component name of the service whose
      *            connection has been lost.
      */
-
-
     @Override
     public void onServiceDisconnected(ComponentName arg0) {
-        mBound = false;
+        bound = false;
     }
 
-    public boolean ismBound() {
-        return mBound;
+    /**
+     *
+     * @return bound
+     */
+    public boolean isBound() {
+        return bound;
     }
 
-    public void setmBound(boolean mBound) {
-        this.mBound = mBound;
+    /**
+     *
+     * @return service
+     */
+    public TaskManagingService getService() {
+        return service;
     }
 
-    public TaskManagingService getmService() {
-        return mService;
-    }
-
-    public void setmService(TaskManagingService mService) {
-        this.mService = mService;
+    /**
+     *  set service to value given as parameter
+     * @param service to be set
+     */
+    public void setService(TaskManagingService service) {
+        this.service = service;
     }
 }

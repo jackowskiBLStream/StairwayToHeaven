@@ -5,7 +5,7 @@ import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import java.util.ArrayList;
 
 /**
- * Created by Krzysztof Antczak on 21.03.2016.
+ * Interfae to be implemented in TaskManagingService for communication between Service and TaskPreviewFragment
  */
 public interface IcommunicatingProvider {
 
