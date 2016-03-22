@@ -140,15 +140,14 @@ public class StartScreenFragment extends Fragment {
             public void onClick(View v) {
                 if (dialogFragment != null && dialogFragment.getTime() > 0) {
                     time = dialogFragment.getTime();
-                    myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
+                    myServiceConnection.getService().addTask(taskIdGenerator, time * 1000);
                     taskIdGenerator++;
                     dialogFragment.setTime(0);
                 } else {
-                    myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
+                    myServiceConnection.getService().addTask(taskIdGenerator, time * 1000);
                     taskIdGenerator++;
                 }
-                myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
-                taskIdGenerator++;
+
             }
 
         });
