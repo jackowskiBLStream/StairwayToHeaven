@@ -18,10 +18,12 @@ import android.view.ViewGroup;
 
 
 import com.blstream.stairwaytoheaven.R;
+import com.blstream.stairwaytoheaven.Service.Task;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class of implementation TaskPreviewFragment
@@ -35,12 +37,26 @@ public class TasksPreviewFragment extends Fragment {
     TasksPreviewListAdapter taskPreviewAdapter;
     private static Handler handler = new Handler();
     TaskManagingService mService;
-    ArrayList<TaskInformation> allTasks;
     private Runnable mStatusChecker = new Runnable(){
         @Override
         public void run() {
             updateTasksInList();
-            handler.postDelayed(mStatusChecker, DELAYED_TIME_IN_MILLISECONDS);
+            handler.postDelayed(this, DELAYED_TIME_IN_MILLISECONDS);
+        }
+    };
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
+            mService = binder.getService();
+            handler.post(mStatusChecker);
+            Log.d("FRAGMENT BOUND", "onResume: bound");
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            handler.removeCallbacks(mStatusChecker);
         }
     };
 
@@ -61,7 +77,6 @@ public class TasksPreviewFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.allTasks);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(taskPreviewAdapter);
-        allTasks = taskPreviewAdapter.getListOfTasks();
         return view;
     }
 
@@ -74,27 +89,13 @@ public class TasksPreviewFragment extends Fragment {
         super.onCreate(savedInstanceState);
         taskPreviewAdapter = new TasksPreviewListAdapter();
     }
-    private ServiceConnection mConnection = new ServiceConnection()
-    {
-        @Override
-        public void onServiceConnected(ComponentName className,
-                                       IBinder service) {
-            TaskManagingService.LocalBinder binder = (TaskManagingService.LocalBinder) service;
-            mService = binder.getService();
-            handler.post(mStatusChecker);
-        }
-        @Override
-        public void onServiceDisconnected(ComponentName arg0) {
-           handler.removeCallbacks(mStatusChecker);
-        }
-    };
+
     /**
      * Methods used to update all tasks in list in Adapter.
      */
     private void updateTasksInList(){
-        allTasks = mService.getAllTasksDetails();
-        taskPreviewAdapter.replaceListOfTasks(allTasks);
-        taskPreviewAdapter.notifyDataSetChanged();
+        ArrayList<TaskInformation> allTasksDetails = mService.getAllTasksDetails();
+        taskPreviewAdapter.replaceListOfTasks(allTasksDetails);
     }
 
     /**
@@ -102,8 +103,8 @@ public class TasksPreviewFragment extends Fragment {
      */
     @Override
     public void onPause() {
-        super.onPause();
         getContext().unbindService(mConnection);
+        super.onPause();
     }
 
     /**
@@ -111,9 +112,9 @@ public class TasksPreviewFragment extends Fragment {
      */
     @Override
     public void onResume(){
-        super.onStart();
+        super.onResume();
         Intent intent  = new Intent(getContext(),TaskManagingService.class);
         getContext().bindService(intent, mConnection, Context.BIND_ABOVE_CLIENT);
-        Log.d("FRAGMENT BOUND", "onCreate: bound");
+
     }
 }

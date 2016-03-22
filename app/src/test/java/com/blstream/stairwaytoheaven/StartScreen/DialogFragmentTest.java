@@ -5,6 +5,8 @@ import junit.framework.TestCase;
 /**
  * Created by Damian on 2016-03-22.
  */
+//FIXME: all green :D
+//FIXME: do not use Junit 3!
 public class DialogFragmentTest extends TestCase {
 
     public void testGetInstance() throws Exception {

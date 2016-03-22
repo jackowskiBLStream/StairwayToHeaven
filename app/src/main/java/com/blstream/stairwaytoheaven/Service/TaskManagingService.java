@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Created by Patryk Gwiazdowski on 21.03.2016.
+ * Created by Patryk Gwiazdowski on 21.03.2016. //you are simply the best ;)
  *
  */
 public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider {

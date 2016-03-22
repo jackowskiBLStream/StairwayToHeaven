@@ -13,6 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.CountDownLatch;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -22,7 +24,10 @@ import static org.junit.Assert.assertEquals;
 public class ServiceTest {
     TaskManagingService service;
     @Rule
+
     public final ServiceTestRule mServiceRule = new ServiceTestRule();
+
+    //TODO: use CountDownLatch for long running tests
 
     @Before
     public void setUp() throws Exception{

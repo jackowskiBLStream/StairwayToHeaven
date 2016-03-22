@@ -1,6 +1,6 @@
 package com.blstream.stairwaytoheaven.EratostenesSieve;
 
-import com.blstream.stairwaytoheaven.Interfaces.IEratosthenesSieve;
+import com.blstream.stairwaytoheaven.Interfaces.PrimeProvider;
 
 import java.util.ArrayList;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Class handles finding primes by using the Eratosthenes Sieve Algorithm.
  * The list of candidates searched for primes is created on a basis of given last number.
  */
-public class EratosthenesSieve implements IEratosthenesSieve {
+public class EratosthenesSieve implements PrimeProvider {
 
     private final static int START_VALUE = 2;
     private int lastNumber;
@@ -26,6 +26,17 @@ public class EratosthenesSieve implements IEratosthenesSieve {
     }
 
     /**
+     * FIXME: Czo to ??
+     * @return
+     */
+    public ArrayList<Integer> getPrimeNumbers() {
+        initialCandidatesForPrime();
+        findPrimeNumbers();
+        return primeNumbers;
+    }
+
+
+    /**
      * Method initialize the list of candidates for primes with values between constant START_VALUE and given lastNumber
      *
      * @return candidatesForPrimes ArrayList<Integer> - initialized list of number candidates for primes
@@ -40,7 +51,6 @@ public class EratosthenesSieve implements IEratosthenesSieve {
         primeNumbers = new ArrayList<>(candidatesForPrime);
         return candidatesForPrime;
     }
-
 
     /**
      * Method searches for primes in list of candidates for primes
@@ -65,6 +75,7 @@ public class EratosthenesSieve implements IEratosthenesSieve {
      */
     protected ArrayList<Integer> findMultiplesFromCurrentNumber(int candidateNumber) {
         ArrayList<Integer> multiplesFromCurrentNumber = new ArrayList<>();
+        //FIXME: code me like one of your latino boys :)
         for (int multiplier = 1, currentMultiple; (currentMultiple = multiplier * candidateNumber) <= lastNumber; multiplier++) {
             boolean isAMultiple = isAMultipleFromCurrentNumber(candidateNumber, currentMultiple);
             if (!isAMultiple) {
@@ -88,11 +99,5 @@ public class EratosthenesSieve implements IEratosthenesSieve {
             isAMultipleFromCurrentNumber = false;
         }
         return isAMultipleFromCurrentNumber;
-    }
-
-    public ArrayList<Integer> getPrimeNumbers() {
-        initialCandidatesForPrime();
-        findPrimeNumbers();
-        return primeNumbers;
     }
 }

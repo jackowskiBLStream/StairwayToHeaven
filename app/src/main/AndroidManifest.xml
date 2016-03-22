@@ -9,8 +9,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".Service.TaskManagingService" />
+
+        <!-- Do not use android:configChanges -->
         <activity android:name=".MainManager.MainActivity"
-            android:configChanges="keyboardHidden|orientation|smallestScreenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize"
 
             android:screenOrientation="fullSensor">
             <intent-filter>

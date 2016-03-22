@@ -1,6 +1,7 @@
 package com.blstream.stairwaytoheaven.DetailFragment;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +18,15 @@ import java.util.ArrayList;
  * Class implementation of TaskPreview adapter.
  */
 public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewListAdapter.ViewHolder> {
-    ArrayList<TaskInformation> listOfTasks;
-    String title;
-    View view;
+    ArrayList<TaskInformation> listOfTasks = new ArrayList<>();;
+    Context context;
 
     /**
      * Constructor where we initialize ArrayList of tasks;
      */
-    public TasksPreviewListAdapter() {
+    public TasksPreviewListAdapter(Context context) {
 
-        listOfTasks = new ArrayList<>();
+        this.context = context;
     }
 
     /**
@@ -44,6 +44,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     public void replaceListOfTasks(ArrayList<TaskInformation> list)
     {
         this.listOfTasks = list;
+        notifyDataSetChanged();
     }
 
     /**
@@ -54,10 +55,8 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
      */
     @Override
     public TasksPreviewListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        this.view = LayoutInflater.from(parent.getContext())
+        View view = LayoutInflater.from(context)
                 .inflate(R.layout.task_preview_element_layout, parent, false);
-
-        this.title = view.getContext().getString(R.string.task_title);
 
         return new ViewHolder(view);
     }
@@ -74,9 +73,9 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
 
             long seconds =  (this.listOfTasks.get(position).getTaskDuration() / 1000);
             int progress = this.listOfTasks.get(position).getTaskProgress();
-            String titleWithDuration = view.getContext()
+            String titleWithDuration = context
                     .getString(R.string.task_title, seconds);
-            String progressInPercent = view.getContext()
+            String progressInPercent = context
                     .getString(R.string.progressInPercent, Integer.toString(progress));
 
             holder.mTitle.setText(titleWithDuration);

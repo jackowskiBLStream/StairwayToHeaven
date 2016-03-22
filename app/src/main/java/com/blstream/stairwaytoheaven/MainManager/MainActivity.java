@@ -1,21 +1,18 @@
 package com.blstream.stairwaytoheaven.MainManager;
 
 
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-
 
 import com.blstream.stairwaytoheaven.DetailFragment.TasksPreviewFragment;
 import com.blstream.stairwaytoheaven.R;
-import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
 import com.blstream.stairwaytoheaven.StartScreen.StartScreenFragment;
 
@@ -35,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
+    @SuppressWarnings("FieldCanBeLocal")
     private PagerAdapter mPagerAdapter;
 
     @Override
@@ -60,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+        //FIXME: handle dialog fragment
     }
 
     /**
@@ -67,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
      * sequence.
      */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+
+        //TODO: handle fragments on rotation
+
         public ScreenSlidePagerAdapter(FragmentManager fm) {
             super(fm);
         }

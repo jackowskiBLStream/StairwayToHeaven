@@ -1,5 +1,6 @@
 package com.blstream.stairwaytoheaven.EratostenesSieve;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,9 +9,19 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class EratosthenesSieveTest {
+
+    private EratosthenesSieve sieve;
+
+    @Before
+    public void setUp() {
+        sieve = new EratosthenesSieve(30);
+        sieve.initialCandidatesForPrime();
+    }
 
     @Test
     public void testInitialCandidatesForPrimesCompareElementsOfListWithMuster() {
@@ -39,14 +50,12 @@ public class EratosthenesSieveTest {
     @Test
     public void testNonMultipleIsAMultipleFromCurrentNumber() {
         // given
-        int number2Check = 19;
-        int lastNumber = 30;
-        int currentMultiple = 19;
+        int expectedPrime = 19;
+        int probableMultipleNumber = 19;
         // when
-        EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
-        eratosthenesSieve.initialCandidatesForPrime();
+        boolean isMultiple = sieve.isAMultipleFromCurrentNumber(expectedPrime, probableMultipleNumber);
         // then
-        assertTrue(eratosthenesSieve.isAMultipleFromCurrentNumber(number2Check, currentMultiple));
+        assertTrue(isMultiple);
     }
 
     @Test
@@ -56,6 +65,7 @@ public class EratosthenesSieveTest {
         int lastNumber = 30;
         int currentMultiple = 25;
         // when
+        //FIXME: following 2 lines repeat in each test -> move to setup
         EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
         eratosthenesSieve.initialCandidatesForPrime();
         // then
@@ -91,14 +101,15 @@ public class EratosthenesSieveTest {
     @Test
     public void testMultipleCandidateNumberIfFindsItFindMultiplesFromCurrentNumber() {
         // given
-        int lastNumber = 30;
         int number2Check = 6;
         List<Integer> expectedNonPrimes = Arrays.asList(6, 12, 18, 24, 30);
         // when
-        EratosthenesSieve eratosthenesSieve = new EratosthenesSieve(lastNumber);
-        eratosthenesSieve.initialCandidatesForPrime();
+        ArrayList<Integer> multiplesFromCurrentNumber = sieve.findMultiplesFromCurrentNumber(number2Check);
         // then
-        assertFalse(eratosthenesSieve.findMultiplesFromCurrentNumber(number2Check).equals(expectedNonPrimes));
+
+        assertNotNull(multiplesFromCurrentNumber);
+        assertNotEquals(expectedNonPrimes, multiplesFromCurrentNumber);
+        assertFalse(multiplesFromCurrentNumber.contains(6));
     }
 
     @Test

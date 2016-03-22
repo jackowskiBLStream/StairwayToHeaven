@@ -5,7 +5,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 /**
- * Class for monitoring state of service
+ * Class for monitoring state of service connection
  */
 public class MyServiceConnection implements ServiceConnection {
     private TaskManagingService service;

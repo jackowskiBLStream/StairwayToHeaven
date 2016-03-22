@@ -2,7 +2,7 @@
     <string name="app_name">StairwayToHeaven</string>
     <string name="user_time">Podaj czas w sekundach</string>
     <string name="task_title">Zadanie przewidziano na %s sekund \d </string>
-    <string name="progressInPercent" translatable="false">%s </string>
+    <string name="progressInPercent" translatable="false">%s %%</string>
     <string name="dialog_user_time">Zdefiniuj wlasny czas...</string>
     <!--&#37;-->
 </resources>
