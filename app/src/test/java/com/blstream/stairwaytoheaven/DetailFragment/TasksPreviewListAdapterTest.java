@@ -31,8 +31,8 @@ public class TasksPreviewListAdapterTest {
     @Test
     public void shouldAddArrayToAdapter(){
         //given
-        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation(10,1000,0));
-        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation(10,1000,1));
+        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation(10,1000));
+        Tasks.add(new com.blstream.stairwaytoheaven.Service.TaskInformation(10,1000));
         Object[] arrayofTasks = Tasks.toArray();
         //when
         adapter.replaceListOfTasks(Tasks);
