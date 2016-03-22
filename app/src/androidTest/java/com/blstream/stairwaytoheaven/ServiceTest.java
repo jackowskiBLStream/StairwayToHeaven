@@ -44,7 +44,7 @@ public class ServiceTest {
         int size = service.getAllTasksDetails().size();
 
         //Then
-        assertEquals("test msg",1,size);
+        assertEquals("After adding one task size should be 1",1,size);
     }
 
     @Test
@@ -57,9 +57,9 @@ public class ServiceTest {
         service.addTask(1,500);
 
         //When
-        long progress = service.getAllTasksDetails().size();
+        int progress = service.getAllTasksDetails().get(4).getTaskProgress();
 
         //Then
-      //  assertEquals("test msg",1,size);
+        assertEquals("After adding 5 tasks to queue, progress of fifth should be 0",0,progress);
     }
 }
