@@ -62,4 +62,21 @@ public class ServiceTest {
         //Then
         assertEquals("After adding 5 tasks to queue, progress of fifth should be 0",0,progress);
     }
+/*
+    @Test
+    public void testAfterAddingFiveTasksAndWaiting500MilisFirstTaskProgressShouldBeMoreThan0() throws Exception {
+        //Given
+        service.addTask(1,500);
+        service.addTask(1,500);
+        service.addTask(1,500);
+        service.addTask(1,500);
+        service.addTask(1,500);
+
+        //When
+        Thread.sleep(500);
+        int progress = service.getAllTasksDetails().get(1).getTaskProgress();
+
+        //Then
+        assertEquals("After adding 5 tasks to queue, progress of fifth should be 0",0,progress);
+    }*/
 }
