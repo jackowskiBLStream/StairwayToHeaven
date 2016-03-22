@@ -8,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-<<<<<<< HEAD
-=======
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
->>>>>>> e999cd1dd4a19651fedd09ceacac5d789fc22ff5
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 

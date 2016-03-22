@@ -21,24 +21,21 @@ import java.util.List;
  * Created by Damian on 2016-03-21.
  */
 public class DialogFragment extends android.support.v4.app.DialogFragment {
+    public static final String USER_TIME = "Zdefiniuj wlasny czas...";
+    public static final String DIALOG_TITLE = "Podaj czas w sekundach";
     private Button okButton;
     private EditText editTextNumbers;
     private Fragment fragment;
     private ArrayAdapter<String> dataAdapter;
     private List<String> list;
-    private boolean isValid = true;
-
-
-    public static final String USER_TIME = "Zdefiniuj wlasny czas...";
-
-
-    public static final String DIALOG_TITLE = "Podaj czas w sekundach";
+    private boolean isValid;
     private long time;
 
 
-    public void setFragment(Fragment fragment){
+    public void setFragment(Fragment fragment) {
         this.fragment = fragment;
     }
+
     public void setList(List<String> list) {
         this.list = list;
     }
@@ -57,11 +54,12 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         getDialog().setTitle(DIALOG_TITLE);
         return rootView;
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        okButton = (Button)view.findViewById(R.id.buttonOk);
-        editTextNumbers = (EditText)view.findViewById(R.id.ediTextInputTime);
+        okButton = (Button) view.findViewById(R.id.buttonOk);
+        editTextNumbers = (EditText) view.findViewById(R.id.ediTextInputTime);
         editTextNumbers.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -75,8 +73,9 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-               // isValid = Integer.parseInt(s.toString()) > 0;
-
+                isValid = !(s.toString().isEmpty())
+                        && Integer.parseInt(s.toString()) > 0
+                        && s.charAt(0) != '0';
 
             }
         });
@@ -89,7 +88,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
                     time = Long.parseLong(editTextNumbers.getText().toString());
                     dismiss();
                 } else {
-                    Toast.makeText(getContext(), "Liczba musi byc wieksza od zera!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Blad walidacji!", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -102,7 +101,7 @@ public class DialogFragment extends android.support.v4.app.DialogFragment {
         dataAdapter.clear();
 
         for (String string : tmpList) {
-            if(string.equals(USER_TIME)){
+            if (string.equals(USER_TIME)) {
                 continue;
             }
             dataAdapter.insert(string, dataAdapter.getCount());

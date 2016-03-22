@@ -45,30 +45,33 @@ public class StartScreenFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        startButton = (Button) view.findViewById(R.id.buttonStart);
 
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        list = new ArrayList<>();
-        list.add("10 sekund");
-        list.add("15 sekund");
-        list.add("20 sekund");
-        list.add("25 sekund");
-        list.add(USER_TIME);
+            spinner = (Spinner) view.findViewById(R.id.spinner);
+            startButton = (Button) view.findViewById(R.id.buttonStart);
 
-        dataAdapter = new ArrayAdapter<>
-                (getActivity(), android.R.layout.simple_spinner_item, list);
+            spinner = (Spinner) view.findViewById(R.id.spinner);
+            list = new ArrayList<>();
+            list.add("10 sekund");
+            list.add("15 sekund");
+            list.add("20 sekund");
+            list.add("25 sekund");
+            list.add(USER_TIME);
 
-        dataAdapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
+            dataAdapter = new ArrayAdapter<>
+                    (getActivity(), android.R.layout.simple_spinner_item, list);
 
-        spinner.setAdapter(dataAdapter);
+            dataAdapter.setDropDownViewResource
+                    (android.R.layout.simple_spinner_dropdown_item);
 
-        // Spinner item selection Listener
-        addListenerOnSpinnerItemSelection();
+            spinner.setAdapter(dataAdapter);
 
-        // Button click Listener
-        addListenerOnButton();
+            // Spinner item selection Listener
+            addListenerOnSpinnerItemSelection();
+
+            // Button click Listener
+            addListenerOnButton();
+
+
 
 
     }
@@ -110,11 +113,12 @@ public class StartScreenFragment extends Fragment {
                     fm = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
                     dialogFragment = new DialogFragment();
                     dialogFragment.show(fm, DIALOG_TAG);
+                    dialogFragment.setCancelable(false);
                     dialogFragment.setFragment(StartScreenFragment.this);
                     dialogFragment.setList(list);
                     dialogFragment.setDataAdapter(dataAdapter);
-                }else{
-                    String[] parts =((String) parent.getItemAtPosition(position)).split(" ");
+                } else {
+                    String[] parts = ((String) parent.getItemAtPosition(position)).split(" ");
                     time = Long.parseLong(parts[0]);
                 }
 
@@ -134,7 +138,7 @@ public class StartScreenFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if(dialogFragment.getTime() > 0){
+                if (dialogFragment != null) {
                     time = dialogFragment.getTime();
                 }
                 myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
