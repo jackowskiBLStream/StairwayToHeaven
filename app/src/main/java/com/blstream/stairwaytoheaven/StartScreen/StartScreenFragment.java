@@ -13,9 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.blstream.stairwaytoheaven.Interfaces.IDialogHelper;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.MyServiceConnection;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
@@ -29,47 +27,51 @@ import java.util.List;
 public class StartScreenFragment extends Fragment {
     public static final String USER_TIME = "Zdefiniuj wlasny czas...";
     public static final String DIALOG_TAG = "Define time Dialog Fragment";
-
-    private IDialogHelper listener;
+    int taskIdGenerator;
     private Spinner spinner;
     private Button startButton;
     private ArrayAdapter<String> dataAdapter;
-    private  List<String> list;
+    private List<String> list;
     private MyServiceConnection myServiceConnection;
-    int taskIdGenerator;
+    private long time;
+    private DialogFragment dialogFragment;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.start_screen_fragment_layout, container, false);
+        return inflater.inflate(R.layout.start_screen_fragment_layout, container, false);
     }
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        spinner = (Spinner)view.findViewById(R.id.spinner);
-        startButton = (Button)view.findViewById(R.id.buttonStart);
 
-        spinner = (Spinner) view.findViewById(R.id.spinner);
-        list = new ArrayList<>();
-        list.add("10 sekund");
-        list.add("15 sekund");
-        list.add("20 sekund");
-        list.add("25 sekund");
-        list.add(USER_TIME);
+            spinner = (Spinner) view.findViewById(R.id.spinner);
+            startButton = (Button) view.findViewById(R.id.buttonStart);
 
-        dataAdapter = new ArrayAdapter<>
-                (getActivity(), android.R.layout.simple_spinner_item,list);
+            spinner = (Spinner) view.findViewById(R.id.spinner);
+            list = new ArrayList<>();
+            list.add("10 sekund");
+            list.add("15 sekund");
+            list.add("20 sekund");
+            list.add("25 sekund");
+            list.add(USER_TIME);
 
-        dataAdapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
+            dataAdapter = new ArrayAdapter<>
+                    (getActivity(), android.R.layout.simple_spinner_item, list);
 
-        spinner.setAdapter(dataAdapter);
+            dataAdapter.setDropDownViewResource
+                    (android.R.layout.simple_spinner_dropdown_item);
 
-        // Spinner item selection Listener
-        addListenerOnSpinnerItemSelection();
+            spinner.setAdapter(dataAdapter);
 
-        // Button click Listener
-        addListenerOnButton();
+            // Spinner item selection Listener
+            addListenerOnSpinnerItemSelection();
+
+            // Button click Listener
+            addListenerOnButton();
+
+
 
 
     }
@@ -77,27 +79,27 @@ public class StartScreenFragment extends Fragment {
     /**
      * Called when the fragment is visible to the user and actively running.
      * This is generally
-     * tied to {@link Activity#onResume() Activity.onResume} of the containing
+     * tied to  of the containing
      * Activity's lifecycle.
      */
     @Override
     public void onResume() {
         super.onResume();
-        taskIdGenerator=0;
+        taskIdGenerator = 0;
         myServiceConnection = new MyServiceConnection();
         Intent intent = new Intent(getContext(), TaskManagingService.class);
-        getContext().bindService(intent,myServiceConnection,getActivity().BIND_AUTO_CREATE);
+        getContext().bindService(intent, myServiceConnection, getActivity().BIND_AUTO_CREATE);
     }
 
     /**
      * Called when the Fragment is no longer resumed.  This is generally
-     * tied to {@link Activity#onPause() Activity.onPause} of the containing
+     * tied to {@link () Activity.onPause} of the containing
      * Activity's lifecycle.
      */
     @Override
     public void onPause() {
         super.onPause();
-        if(myServiceConnection.ismBound()){
+        if (myServiceConnection.ismBound()) {
             getContext().unbindService(myServiceConnection);
         }
     }
@@ -106,14 +108,18 @@ public class StartScreenFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position == list.size() - 1){
+                if (position == list.size() - 1) {
                     FragmentManager fm;
-                    fm = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
-                    DialogFragment dialogFragment = new DialogFragment();
+                    fm = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                    dialogFragment = new DialogFragment();
                     dialogFragment.show(fm, DIALOG_TAG);
+                    dialogFragment.setCancelable(false);
                     dialogFragment.setFragment(StartScreenFragment.this);
-//                    listener.onListen(list, dataAdapter);
-
+                    dialogFragment.setList(list);
+                    dialogFragment.setDataAdapter(dataAdapter);
+                } else {
+                    String[] parts = ((String) parent.getItemAtPosition(position)).split(" ");
+                    time = Long.parseLong(parts[0]);
                 }
 
             }
@@ -126,47 +132,20 @@ public class StartScreenFragment extends Fragment {
     }
 
 
-    public void setListener(IDialogHelper listener) {
-        this.listener = listener;
-    }
-
     private void addListenerOnButton() {
 
         startButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(getActivity(),
-                        "On Button Click : " +
-                                "\n" + String.valueOf(spinner.getSelectedItem()),
-                        Toast.LENGTH_LONG).show();
-
-                myServiceConnection.getmService().addTask(taskIdGenerator, 3000);
+                if (dialogFragment != null) {
+                    time = dialogFragment.getTime();
+                }
+                myServiceConnection.getmService().addTask(taskIdGenerator, time * 1000);
                 taskIdGenerator++;
-               /* list.add("new for test");
-                updatedData(list);*/
-
             }
 
         });
-    }
-
-    private void updatedData(List<String> list) {
-        List<String> tmpList = new ArrayList<>(list);
-
-        dataAdapter.clear();
-
-        for (String string : tmpList) {
-            if(string.equals(USER_TIME)){
-                continue;
-            }
-            dataAdapter.insert(string, dataAdapter.getCount());
-        }
-        dataAdapter.insert(USER_TIME, dataAdapter.getCount());
-
-        dataAdapter.notifyDataSetChanged();
-
     }
 
 

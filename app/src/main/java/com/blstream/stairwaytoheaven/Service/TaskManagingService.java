@@ -12,18 +12,19 @@ import com.blstream.stairwaytoheaven.Interfaces.IAddingInterface;
 import com.blstream.stairwaytoheaven.Interfaces.IcommunicatingProvider;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by Patryk Gwiazdowski on 21.03.2016.
+ *
  */
-public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider, Runnable {
-    private static final String TAG = "SERVICE";
+public class TaskManagingService extends Service implements IAddingInterface, IcommunicatingProvider {
 
     private class TaskContainer {
         private Thread task;
         private TimeHolder timeHolder;
         private int taskId;
-        private boolean running;
 
 
         public TaskContainer(long durationTime, int taskId) {
@@ -37,7 +38,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     private static final int MAX_PARALLEL_TASKS_RUNNING = 4;
     private ArrayList<TaskContainer> taskQueue;
     private final IBinder mBinder = new LocalBinder();
-    private Thread servicethread;
+    ThreadPoolExecutor executor;
 
     /**
      * adds new task to queue in Service
@@ -47,7 +48,9 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
      */
     @Override
     public void addTask(int taskId, long timeDuration) {
-        taskQueue.add(new TaskContainer(timeDuration, taskId));
+        TaskContainer task =new TaskContainer(timeDuration, taskId);
+        taskQueue.add(task);
+        executor.execute(task.task);
     }
 
 
@@ -83,9 +86,7 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
     public void onCreate() {
         super.onCreate();
         taskQueue = new ArrayList<>();
-        servicethread = new Thread(this);
-        servicethread.start();
-        Log.d(TAG, "onCreate: Thread started");
+        executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(MAX_PARALLEL_TASKS_RUNNING);
     }
 
     /**
@@ -116,45 +117,4 @@ public class TaskManagingService extends Service implements IAddingInterface, Ic
         return mBinder;
     }
 
-    @Override
-    public void run() {
-
-        //TODO: maybe ThreadPoolExecutor ?
-        //TODO: maybe BlockingQueue ?
-
-        while (true) {
-            for (TaskContainer taskContainer : taskQueue) {
-                //FIXME: too complicated if, move to method
-                //FIXME: too many nested brackets
-                if (
-                        getExecutedCount() < MAX_PARALLEL_TASKS_RUNNING
-                        && taskContainer.timeHolder.getElapsedTime() < taskContainer.timeHolder.getDuration()
-                        && !taskContainer.task.isAlive()
-                   ) {
-                    taskContainer.task.start();
-                    taskContainer.running = true;
-                }
-
-                Log.d(TAG, "run: "+"task " + taskContainer.taskId + " time: " + taskContainer.timeHolder.getElapsedTime() + " running:" + taskContainer.running);
-                System.out.println();
-
-            }
-            try {
-                //FIXME: hmmm :)
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private int getExecutedCount() {
-        int count = 0;
-        for (TaskContainer taskContainer : taskQueue) {
-            if (taskContainer.running) {
-                count++;
-            }
-        }
-        return count;
-    }
 }

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 
@@ -39,7 +40,7 @@ public class TasksPreviewListAdapter extends RecyclerView.Adapter<TasksPreviewLi
     @Override
     public void onBindViewHolder(TasksPreviewListAdapter.ViewHolder holder, int position) {
         if(listOfTasks.size() != 0) {
-            holder.mTitle.setText(this.listOfTasks.get(position).getTaskTitile());
+            holder.mTitle.setText("Zadanie przewidziane na "+ this.listOfTasks.get(position).getTaskDuration());
             holder.progresBar.setProgress(this.listOfTasks.get(position).getTaskProgress());
         }
     }

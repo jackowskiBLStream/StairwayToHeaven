@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
 import com.blstream.stairwaytoheaven.R;
 import com.blstream.stairwaytoheaven.Service.TaskInformation;
 import com.blstream.stairwaytoheaven.Service.TaskManagingService;
@@ -37,6 +38,7 @@ public class TasksPreviewFragment extends Fragment {
             handler.postDelayed(mStatusChecker, DELAYED_TIME_IN_MILLISECONDS);
         }
     };
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
